@@ -36,8 +36,6 @@ namespace FormsGameEngineFormExample
             GameCycle();
         }
 
-
-
         void GameCycle()
         {
             Delayed(1, () => UpdateScreen());
@@ -58,6 +56,16 @@ namespace FormsGameEngineFormExample
                 timer.Stop();
             };
             timer.Start();
+        }
+
+        private void Form1_ControlRemoved(object sender, ControlEventArgs e)
+        {
+
+        }
+
+        private void Form1_KeyDown(object sender, KeyEventArgs e)
+        {
+            Console.Out.WriteLine(e.KeyData);
         }
     }
 }
