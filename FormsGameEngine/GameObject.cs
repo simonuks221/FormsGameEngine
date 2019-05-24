@@ -8,7 +8,7 @@ using System.Drawing;
 
 namespace FormsGameEngine
 {
-    public class GameObject
+    public abstract class GameObject
     {
         public Control gameObjectControl;
         public Point gameObjectLocation;
@@ -18,16 +18,30 @@ namespace FormsGameEngine
             gameObjectLocation = _gameObjectLocation;
         }
 
-        public void UpdateDisplay(MainGameEnginePanel _mainGameEnginePanel)
+        public abstract void UpdateDisplay(MainGameEnginePanel _mainGameEnginePanel);
+    }
+
+    public class CubeGameObject : GameObject
+    {
+        public Size cubeSize;
+        public Color cubeColor;
+
+        public CubeGameObject(Point _cubeLocation, Size _cubeSize, Color _cubeColor) : base(_cubeLocation)
         {
+            cubeSize = _cubeSize;
+            cubeColor = _cubeColor;
+        }
+
+        public override void  UpdateDisplay(MainGameEnginePanel _mainGameEnginePanel)
+        { 
             if(gameObjectControl != null)
             {
                 gameObjectControl.Dispose();
             }
 
             Panel newPanel = new Panel();
-            newPanel.Size = new Size(10, 10);
-            newPanel.BackColor = Color.Red;
+            newPanel.Size = cubeSize;
+            newPanel.BackColor = cubeColor;
 
             gameObjectControl = newPanel;
             gameObjectControl.Location = gameObjectLocation;

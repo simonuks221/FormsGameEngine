@@ -28,14 +28,10 @@ namespace FormsGameEngineFormExample
 
             gameManager = new GameManager(mainGameEnginePanel);
 
-            List<GameObject> scene1GameObjects = new List<GameObject>() { new GameObject(new Point(0, 0)), new GameObject(new Point(100, 100))};
+            List<GameObject> scene1GameObjects = new List<GameObject>() { new CubeGameObject(new Point(0, 0), new Size(20, 20), Color.Red)};
             GameScene scene1 = new GameScene(scene1GameObjects);
             
-
-
             gameManager.gameScenes.Add(scene1);
-
-           
 
             GameCycle();
         }
