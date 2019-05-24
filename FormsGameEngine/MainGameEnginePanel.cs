@@ -13,8 +13,7 @@ namespace FormsGameEngine
         public MainGameEnginePanel(Size _panelSize)
         {
             this.Size = _panelSize;
-            this.BackColor = Color.Aqua;
+            this.BackColor = Color.LightGray;
         }
-
     }
 }
