@@ -18,6 +18,17 @@ namespace FormsGameEngine
         public abstract void UpdateObject(MainGameEnginePanel _mainGameEnginePanel);
     }
 
+    public struct BoundingBox
+    {
+        public Point min;
+        public Point max;
+        public BoundingBox(Point _min, Point _max)
+        {
+            min = _min;
+            max = _max;
+        }
+    }
+
     public abstract class GameObject2D : GameObject
     {
         public delegate void CollisionHandler(GameObject2D _sender, GameObject2D _other);
@@ -25,6 +36,10 @@ namespace FormsGameEngine
 
         public Control gameObjectControl;
         public Point gameObjectLocation;
+
+        public bool solid = false;
+        public BoundingBox boundingBox;
+        public Point objectVelocity = new Point(0, 0);
 
         public GameObject2D(Point _gameObject2DLocation)
         {
@@ -47,6 +62,10 @@ namespace FormsGameEngine
         {
             cubeSize = _cubeSize;
             cubeColor = _cubeColor;
+
+            Point min = new Point(gameObjectLocation.X - cubeSize.Width / 2, gameObjectLocation.Y - cubeSize.Height / 2);
+            Point max = new Point(gameObjectLocation.X + cubeSize.Width / 2, gameObjectLocation.Y + cubeSize.Height / 2);
+            boundingBox = new BoundingBox(min, max);
         }
 
         public override void  UpdateObject(MainGameEnginePanel _mainGameEnginePanel)

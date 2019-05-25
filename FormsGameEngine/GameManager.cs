@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Drawing;
 
 namespace FormsGameEngine
 {
@@ -38,6 +39,7 @@ namespace FormsGameEngine
 
         void UpdateScreen()
         {
+            ApplyVelocity();
             CheckCollisions();
             Tick();
             UpdateCurrentGamePanel();
@@ -55,6 +57,34 @@ namespace FormsGameEngine
             timer.Start();
         }
 
+        public void ApplyVelocity()
+        {
+            List<GameObject2D> collidingObjects = new List<GameObject2D>();
+            foreach (GameObject obj in gameScenes[currentActiveScene].gameObjects) //Populate colliding objects list
+            {
+                GameObject2D ob = (GameObject2D)obj;
+                if (obj != null)
+                {
+                    collidingObjects.Add(ob);
+                }
+            }
+
+            foreach (GameObject2D obj in collidingObjects) //Aplly velocity
+            {
+                if (obj.objectVelocity != new System.Drawing.Point(0, 0))
+                {
+                    GameObject2D other = null;
+                    if (!IsLocationBlocked(obj, new Point(obj.boundingBox.max.X + obj.objectVelocity.X, obj.boundingBox.max.Y + obj.objectVelocity.Y), collidingObjects, out other)
+                        && !IsLocationBlocked(obj, new Point(obj.boundingBox.min.X + obj.objectVelocity.X, obj.boundingBox.min.Y + obj.objectVelocity.Y), collidingObjects, out other)
+                        )
+                    {
+                        obj.gameObjectLocation.X += obj.objectVelocity.X;
+                        obj.gameObjectLocation.Y += obj.objectVelocity.Y;
+                    }
+                }
+            }
+        }
+
         public void CheckCollisions()
         {
             List<GameObject2D> collidingObjects = new List<GameObject2D>();
@@ -69,18 +99,47 @@ namespace FormsGameEngine
 
             for (int i = 0; i < collidingObjects.Count; i++) //Check collsisions
             {
-                for (int y = 0; y < collidingObjects.Count; y++) //Check collisions agains other objects
+                GameObject2D other = null;
+                if(IsGameObjectColliding(collidingObjects[i], collidingObjects, out other))
                 {
-                    if(y != i)
+                    collidingObjects[i].Collision(other);
+                }
+            }
+
+        }
+
+        bool IsGameObjectColliding(GameObject2D _object, List<GameObject2D> _collidingObjects, out GameObject2D _other)
+        {
+            for (int y = 0; y < _collidingObjects.Count; y++) //Check collisions agains other objects
+            {
+                if (_collidingObjects[y] != _object)
+                {
+                    if (_object.gameObjectLocation == _collidingObjects[y].gameObjectLocation)
                     {
-                        if(collidingObjects[i].gameObjectLocation == collidingObjects[y].gameObjectLocation)
-                        {
-                            collidingObjects[i].Collision(collidingObjects[y]);
-                            break;
-                        }
+                        _other = _collidingObjects[y];
+                        return true;
                     }
                 }
             }
+            _other = null;
+            return false;
+        }
+
+        bool IsLocationBlocked(GameObject2D _object, Point _location, List<GameObject2D> _collidingObjects, out GameObject2D _other)
+        {
+            for (int y = 0; y < _collidingObjects.Count; y++) //Check collisions agains other objects
+            {
+                if (_collidingObjects[y] != _object)
+                {
+                    if ((_location.X > _collidingObjects[y].boundingBox.min.X && _location.Y > _collidingObjects[y].boundingBox.min.Y) && (_location.X < _collidingObjects[y].boundingBox.max.X && _location.Y < _collidingObjects[y].boundingBox.max.Y))
+                    {
+                        _other = _collidingObjects[y];
+                        return true;
+                    }
+                }
+            }
+            _other = null;
+            return false;
         }
 
         public void UpdateCurrentGamePanel()
