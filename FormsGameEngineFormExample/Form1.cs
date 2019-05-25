@@ -16,8 +16,6 @@ namespace FormsGameEngineFormExample
         GameManager gameManager;
         GameObject2D playerGameObject;
 
-        List<Keys> activeKeys = new List<Keys>();
-
         public Form1()
         {
             InitializeComponent();
@@ -29,7 +27,7 @@ namespace FormsGameEngineFormExample
             Controls.Add(mainGameEnginePanel);
             mainGameEnginePanel.Location = new Point(0, 0);
 
-            gameManager = new GameManager(mainGameEnginePanel);
+            gameManager = new GameManager(this, mainGameEnginePanel);
 
             playerGameObject = new CubeGameObject(new Point(30, 30), new Size(10, 10), Color.Green);
 
@@ -38,48 +36,17 @@ namespace FormsGameEngineFormExample
             
             gameManager.gameScenes.Add(scene1);
 
-            GameCycle();
+            gameManager.Tick += GameManager_Tick;
         }
 
-        void GameCycle()
-        {
-            Delayed(1, () => UpdateScreen());
-        }
-
-        void UpdateScreen()
+        private void GameManager_Tick(object sender, EventArgs e)
         {
             SetupPlayerMovement();
-            gameManager.UpdateCurrentGamePanel();
-            GameCycle();
-        }
-
-        public void Delayed(int delay, Action action)
-        {
-            Timer timer = new Timer();
-            timer.Interval = delay;
-            timer.Tick += (s, e) => {
-                action();
-                timer.Stop();
-            };
-            timer.Start();
-        }
-
-        private void Form1_KeyDown(object sender, KeyEventArgs e)
-        {
-            if (!activeKeys.Contains(e.KeyCode))
-            {
-                activeKeys.Add(e.KeyCode);
-            }
-        }
-
-        private void Form1_KeyUp(object sender, KeyEventArgs e)
-        {
-            activeKeys.Remove(e.KeyCode);
         }
 
         void SetupPlayerMovement()
         {
-            foreach (Keys k in activeKeys)
+            foreach (Keys k in gameManager.keysDown)
             {
                 if (k == Keys.D)
                 {
