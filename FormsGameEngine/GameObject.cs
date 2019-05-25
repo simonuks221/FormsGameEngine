@@ -15,18 +15,25 @@ namespace FormsGameEngine
         {
             
         }
-
         public abstract void UpdateObject(MainGameEnginePanel _mainGameEnginePanel);
     }
 
     public abstract class GameObject2D : GameObject
     {
+        public delegate void CollisionHandler(GameObject2D _sender, GameObject2D _other);
+        public event CollisionHandler OnCollision;
+
         public Control gameObjectControl;
         public Point gameObjectLocation;
 
         public GameObject2D(Point _gameObject2DLocation)
         {
             gameObjectLocation = _gameObject2DLocation;
+        }
+
+        public void Collision( GameObject2D Collider)
+        {
+            OnCollision?.Invoke(this, Collider);
         }
     }
 

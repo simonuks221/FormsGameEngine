@@ -9,8 +9,8 @@ namespace FormsGameEngine
 {
     public class GameManager
     {
-        public event EventHandler Tick;
         public delegate void TickHandler();
+        public event TickHandler Tick;
 
         public Form form;
         public MainGameEnginePanel mainGameEnginePanel;
@@ -30,6 +30,7 @@ namespace FormsGameEngine
             GameCycle();
         }
 
+        #region GameCycle
         void GameCycle()
         {
             Delayed(1, () => UpdateScreen());
@@ -37,30 +38,10 @@ namespace FormsGameEngine
 
         void UpdateScreen()
         {
-            Tick(this, new EventArgs());
+            CheckCollisions();
+            Tick();
             UpdateCurrentGamePanel();
             GameCycle();
-        }
-
-        public void UpdateCurrentGamePanel()
-        {
-            for(int i = 0; i < gameScenes[currentActiveScene].gameObjects.Count; i++)
-            {
-                gameScenes[currentActiveScene].gameObjects[i].UpdateObject(mainGameEnginePanel);
-            }
-        }
-
-        private void Form_KeyDown(object sender, KeyEventArgs e)
-        {
-            if (!keysDown.Contains(e.KeyCode))
-            {
-                keysDown.Add(e.KeyCode);
-            }
-        }
-
-        private void Form_KeyUp(object sender, KeyEventArgs e)
-        {
-            keysDown.Remove(e.KeyCode);
         }
 
         public void Delayed(int delay, Action action)
@@ -73,5 +54,57 @@ namespace FormsGameEngine
             };
             timer.Start();
         }
+
+        public void CheckCollisions()
+        {
+            List<GameObject2D> collidingObjects = new List<GameObject2D>();
+            foreach (GameObject obj in gameScenes[currentActiveScene].gameObjects) //Populate colliding objects list
+            {
+                GameObject2D ob = (GameObject2D)obj;
+                if (obj != null)
+                {
+                    collidingObjects.Add(ob);
+                }
+            }
+
+            for (int i = 0; i < collidingObjects.Count; i++) //Check collsisions
+            {
+                for (int y = 0; y < collidingObjects.Count; y++) //Check collisions agains other objects
+                {
+                    if(y != i)
+                    {
+                        if(collidingObjects[i].gameObjectLocation == collidingObjects[y].gameObjectLocation)
+                        {
+                            collidingObjects[i].Collision(collidingObjects[y]);
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+
+        public void UpdateCurrentGamePanel()
+        {
+            for(int i = 0; i < gameScenes[currentActiveScene].gameObjects.Count; i++)
+            {
+                gameScenes[currentActiveScene].gameObjects[i].UpdateObject(mainGameEnginePanel);
+            }
+        }
+        #endregion
+
+        #region KeyHandling
+        private void Form_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (!keysDown.Contains(e.KeyCode))
+            {
+                keysDown.Add(e.KeyCode);
+            }
+        }
+
+        private void Form_KeyUp(object sender, KeyEventArgs e)
+        {
+            keysDown.Remove(e.KeyCode);
+        }
+        #endregion
     }
 }

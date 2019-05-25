@@ -30,6 +30,7 @@ namespace FormsGameEngineFormExample
             gameManager = new GameManager(this, mainGameEnginePanel);
 
             playerGameObject = new CubeGameObject(new Point(30, 30), new Size(10, 10), Color.Green);
+            playerGameObject.OnCollision += PlayerHit;
 
             List<GameObject> scene1GameObjects = new List<GameObject>() {playerGameObject, new CubeGameObject(new Point(0, 0), new Size(20, 20), Color.Red)};
             GameScene scene1 = new GameScene(scene1GameObjects);
@@ -39,32 +40,59 @@ namespace FormsGameEngineFormExample
             gameManager.Tick += GameManager_Tick;
         }
 
-        private void GameManager_Tick(object sender, EventArgs e)
+        private void GameManager_Tick()
         {
             SetupPlayerMovement();
         }
 
         void SetupPlayerMovement()
         {
+            int speedMultiplier = 1; //For greater speed when Shift is pressed
+            if (gameManager.keysDown.Contains(Keys.ShiftKey))
+            {
+                speedMultiplier = 3;
+            }
+            else
+            {
+                speedMultiplier = 1;
+            }
+
             foreach (Keys k in gameManager.keysDown)
             {
                 if (k == Keys.D)
                 {
-                    playerGameObject.gameObjectLocation.X += 1;
+                    if (playerGameObject.gameObjectLocation.X < gameManager.mainGameEnginePanel.Size.Width - 10)
+                    {
+                        playerGameObject.gameObjectLocation.X += speedMultiplier;
+                    }
                 }
                 if (k == Keys.A)
                 {
-                    playerGameObject.gameObjectLocation.X -= 1;
+                    if (playerGameObject.gameObjectLocation.X > 0)
+                    {
+                        playerGameObject.gameObjectLocation.X -= speedMultiplier;
+                    }
                 }
                 if (k == Keys.W)
                 {
-                    playerGameObject.gameObjectLocation.Y -= 1;
+                    if (playerGameObject.gameObjectLocation.Y > 0)
+                    {
+                        playerGameObject.gameObjectLocation.Y -= speedMultiplier;
+                    }
                 }
                 if (k == Keys.S)
                 {
-                    playerGameObject.gameObjectLocation.Y += 1;
+                    if (playerGameObject.gameObjectLocation.Y < gameManager.mainGameEnginePanel.Size.Height - 10)
+                    {
+                        playerGameObject.gameObjectLocation.Y += speedMultiplier;
+                    }
                 }
             }
+        }
+
+        void PlayerHit( GameObject2D _sender, GameObject2D _other)
+        {
+            Console.Out.WriteLine("Ahh, i hit " + _other);
         }
     }
 }
