@@ -22,7 +22,7 @@ namespace FormsGameEngine
         {
             for(int i = 0; i < gameScenes[currentActiveScene].gameObjects.Count; i++)
             {
-                gameScenes[currentActiveScene].gameObjects[i].UpdateDisplay(mainGameEnginePanel);
+                gameScenes[currentActiveScene].gameObjects[i].UpdateObject(mainGameEnginePanel);
             }
         }
     }

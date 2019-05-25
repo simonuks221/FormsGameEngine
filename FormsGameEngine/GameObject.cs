@@ -10,18 +10,28 @@ namespace FormsGameEngine
 {
     public abstract class GameObject
     {
+
+        public GameObject()
+        {
+            
+        }
+
+        public abstract void UpdateObject(MainGameEnginePanel _mainGameEnginePanel);
+    }
+
+    public abstract class GameObject2D : GameObject
+    {
         public Control gameObjectControl;
         public Point gameObjectLocation;
 
-        public GameObject(Point _gameObjectLocation)
+        public GameObject2D(Point _gameObject2DLocation)
         {
-            gameObjectLocation = _gameObjectLocation;
+            gameObjectLocation = _gameObject2DLocation;
         }
-
-        public abstract void UpdateDisplay(MainGameEnginePanel _mainGameEnginePanel);
     }
 
-    public class CubeGameObject : GameObject
+
+    public class CubeGameObject : GameObject2D
     {
         public Size cubeSize;
         public Color cubeColor;
@@ -32,7 +42,7 @@ namespace FormsGameEngine
             cubeColor = _cubeColor;
         }
 
-        public override void  UpdateDisplay(MainGameEnginePanel _mainGameEnginePanel)
+        public override void  UpdateObject(MainGameEnginePanel _mainGameEnginePanel)
         { 
             if(gameObjectControl != null)
             {

@@ -14,6 +14,9 @@ namespace FormsGameEngineFormExample
     public partial class Form1 : Form
     {
         GameManager gameManager;
+        GameObject2D playerGameObject;
+
+        List<Keys> activeKeys = new List<Keys>();
 
         public Form1()
         {
@@ -28,7 +31,9 @@ namespace FormsGameEngineFormExample
 
             gameManager = new GameManager(mainGameEnginePanel);
 
-            List<GameObject> scene1GameObjects = new List<GameObject>() { new CubeGameObject(new Point(0, 0), new Size(20, 20), Color.Red)};
+            playerGameObject = new CubeGameObject(new Point(30, 30), new Size(10, 10), Color.Green);
+
+            List<GameObject> scene1GameObjects = new List<GameObject>() {playerGameObject, new CubeGameObject(new Point(0, 0), new Size(20, 20), Color.Red)};
             GameScene scene1 = new GameScene(scene1GameObjects);
             
             gameManager.gameScenes.Add(scene1);
@@ -43,6 +48,7 @@ namespace FormsGameEngineFormExample
 
         void UpdateScreen()
         {
+            SetupPlayerMovement();
             gameManager.UpdateCurrentGamePanel();
             GameCycle();
         }
@@ -58,14 +64,40 @@ namespace FormsGameEngineFormExample
             timer.Start();
         }
 
-        private void Form1_ControlRemoved(object sender, ControlEventArgs e)
-        {
-
-        }
-
         private void Form1_KeyDown(object sender, KeyEventArgs e)
         {
-            Console.Out.WriteLine(e.KeyData);
+            if (!activeKeys.Contains(e.KeyCode))
+            {
+                activeKeys.Add(e.KeyCode);
+            }
+        }
+
+        private void Form1_KeyUp(object sender, KeyEventArgs e)
+        {
+            activeKeys.Remove(e.KeyCode);
+        }
+
+        void SetupPlayerMovement()
+        {
+            foreach (Keys k in activeKeys)
+            {
+                if (k == Keys.D)
+                {
+                    playerGameObject.gameObjectLocation.X += 1;
+                }
+                if (k == Keys.A)
+                {
+                    playerGameObject.gameObjectLocation.X -= 1;
+                }
+                if (k == Keys.W)
+                {
+                    playerGameObject.gameObjectLocation.Y -= 1;
+                }
+                if (k == Keys.S)
+                {
+                    playerGameObject.gameObjectLocation.Y += 1;
+                }
+            }
         }
     }
 }
