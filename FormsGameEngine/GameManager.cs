@@ -81,32 +81,42 @@ namespace FormsGameEngine
                         biggerVelocity = Math.Abs(obj.objectVelocity.Y);
                     }
 
-                    for(int i = 1; i <= biggerVelocity; i++)
+                    int newLocX = 0;
+                    int newLocY = 0;
+
+                    for(float i = 0.1f; i <= 1; i += 0.1f)
                     {
+                        /*
                         int velocityX = (int)Math.Ceiling((float)obj.objectVelocity.X / i);
                         int velocityY = (int)Math.Ceiling((float)obj.objectVelocity.Y / i);
-                        /*
+                        
                         if (!IsLocationBlocked(obj, new Point(obj.boundingBox.max.X + obj.objectVelocity.X + obj.gameObjectLocation.X, obj.boundingBox.max.Y + obj.objectVelocity.Y + obj.gameObjectLocation.Y), collidingObjects, out other)
                         && !IsLocationBlocked(obj, new Point(obj.boundingBox.min.X + obj.objectVelocity.X + obj.gameObjectLocation.X, obj.boundingBox.min.Y + obj.objectVelocity.Y + obj.gameObjectLocation.Y), collidingObjects, out other)
                         && !IsLocationBlocked(obj, new Point(obj.boundingBox.min.X + obj.objectVelocity.X + obj.gameObjectLocation.X, obj.boundingBox.max.Y + obj.objectVelocity.Y + obj.gameObjectLocation.Y), collidingObjects, out other)
                         && !IsLocationBlocked(obj, new Point(obj.boundingBox.max.X + obj.objectVelocity.X + obj.gameObjectLocation.X, obj.boundingBox.min.Y + obj.objectVelocity.Y + obj.gameObjectLocation.Y), collidingObjects, out other)
                         ) //Old method for detecting collisions
                        */
-                        if (!IsLocationBlocked(obj, new Point(obj.boundingBox.max.X + velocityX + obj.gameObjectLocation.X, obj.boundingBox.max.Y + velocityY + obj.gameObjectLocation.Y), collidingObjects, out other)
-                       && !IsLocationBlocked(obj, new Point(obj.boundingBox.min.X + velocityX + obj.gameObjectLocation.X, obj.boundingBox.min.Y + velocityY + obj.gameObjectLocation.Y), collidingObjects, out other)
-                       && !IsLocationBlocked(obj, new Point(obj.boundingBox.min.X + velocityX + obj.gameObjectLocation.X, obj.boundingBox.max.Y + velocityY + obj.gameObjectLocation.Y), collidingObjects, out other)
-                       && !IsLocationBlocked(obj, new Point(obj.boundingBox.max.X + velocityX + obj.gameObjectLocation.X, obj.boundingBox.min.Y + velocityY + obj.gameObjectLocation.Y), collidingObjects, out other)
+                        int velocityX = (int)Math.Round(obj.gameObjectLocation.X + obj.objectVelocity.X * i);
+                        int velocityY = (int)Math.Round(obj.gameObjectLocation.Y + obj.objectVelocity.Y * i);
+                        
+                        if (!IsLocationBlocked(obj, new Point(obj.boundingBox.max.X + velocityX, obj.boundingBox.max.Y + velocityY), collidingObjects, out other)
+                       && !IsLocationBlocked(obj, new Point(obj.boundingBox.min.X + velocityX, obj.boundingBox.min.Y + velocityY), collidingObjects, out other)
+                       && !IsLocationBlocked(obj, new Point(obj.boundingBox.min.X + velocityX, obj.boundingBox.max.Y + velocityY), collidingObjects, out other)
+                       && !IsLocationBlocked(obj, new Point(obj.boundingBox.max.X + velocityX, obj.boundingBox.min.Y + velocityY), collidingObjects, out other)
                         )
                         {
-                            obj.gameObjectLocation.X += obj.objectVelocity.X;
-                            obj.gameObjectLocation.Y += obj.objectVelocity.Y;
+                            newLocX = velocityX;
+                            newLocY = velocityY;
                         }
                         else
                         {
                             break; //Break loop if theres and obstacle in the way of objects path depending on velocity
                         }
                     }
-                    
+
+                    obj.gameObjectLocation.X = newLocX;
+                    obj.gameObjectLocation.Y = newLocY;
+
                 }
             }
         }
@@ -159,8 +169,11 @@ namespace FormsGameEngine
                 {
                     if ((_location.X > _collidingObjects[y].boundingBox.min.X + _collidingObjects[y].gameObjectLocation.Y && _location.Y > _collidingObjects[y].boundingBox.min.Y + _collidingObjects[y].gameObjectLocation.Y) && (_location.X < _collidingObjects[y].boundingBox.max.X + _collidingObjects[y].gameObjectLocation.X && _location.Y < _collidingObjects[y].boundingBox.max.Y + _collidingObjects[y].gameObjectLocation.Y))
                     {
-                        _other = _collidingObjects[y];
-                        return true;
+                        if (_collidingObjects[y].solid)
+                        {
+                            _other = _collidingObjects[y];
+                            return true;
+                        }
                     }
                 }
             }

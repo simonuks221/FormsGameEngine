@@ -32,7 +32,13 @@ namespace FormsGameEngineFormExample
             playerGameObject = new CubeGameObject(new Point(30, 30), new Size(10, 10), Color.Green);
             playerGameObject.OnCollision += PlayerHit;
 
-            List<GameObject> scene1GameObjects = new List<GameObject>() {playerGameObject, new CubeGameObject(new Point(0, 0), new Size(20, 20), Color.Red), new CubeGameObject(new Point(50, 50), new Size(20, 20), Color.Red)};
+            CubeGameObject cube1 = new CubeGameObject(new Point(0, 0), new Size(20, 20), Color.Red);
+            cube1.solid = true;
+            CubeGameObject cube2 = new CubeGameObject(new Point(50, 50), new Size(20, 20), Color.Red);
+            cube2.solid = true;
+
+            List<GameObject> scene1GameObjects = new List<GameObject>() {playerGameObject, cube1, cube2};
+            
             GameScene scene1 = new GameScene(scene1GameObjects);
             
             gameManager.gameScenes.Add(scene1);
