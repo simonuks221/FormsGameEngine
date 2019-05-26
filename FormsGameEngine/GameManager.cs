@@ -76,6 +76,8 @@ namespace FormsGameEngine
                     GameObject2D other = null;
                     if (!IsLocationBlocked(obj, new Point(obj.boundingBox.max.X + obj.objectVelocity.X + obj.gameObjectLocation.X, obj.boundingBox.max.Y + obj.objectVelocity.Y + obj.gameObjectLocation.Y), collidingObjects, out other)
                         && !IsLocationBlocked(obj, new Point(obj.boundingBox.min.X + obj.objectVelocity.X + obj.gameObjectLocation.X, obj.boundingBox.min.Y + obj.objectVelocity.Y + obj.gameObjectLocation.Y), collidingObjects, out other)
+                        && !IsLocationBlocked(obj, new Point(obj.boundingBox.min.X + obj.objectVelocity.X + obj.gameObjectLocation.X, obj.boundingBox.max.Y + obj.objectVelocity.Y + obj.gameObjectLocation.Y), collidingObjects, out other)
+                        && !IsLocationBlocked(obj, new Point(obj.boundingBox.max.X + obj.objectVelocity.X + obj.gameObjectLocation.X, obj.boundingBox.min.Y + obj.objectVelocity.Y + obj.gameObjectLocation.Y), collidingObjects, out other)
                         )
                     {
                         obj.gameObjectLocation.X += obj.objectVelocity.X;
