@@ -47,6 +47,7 @@ namespace FormsGameEngine
             }
             
             Label newLabel = new Label();
+
             newLabel.Text = text;
 
             gameObjectControl = newLabel;

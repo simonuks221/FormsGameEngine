@@ -33,16 +33,14 @@ namespace FormsGameEngineFormExample
             playerGameObject.OnCollision += PlayerHit;
 
             CubeGameObject cube1 = new CubeGameObject(new Point(0, 0), new Size(20, 20), Color.Red);
-            cube1.solid = true;
+            cube1.solid = false;
+            cube1.objectTag = "trigger";
             CubeGameObject cube2 = new CubeGameObject(new Point(50, 50), new Size(20, 20), Color.Red);
             cube2.solid = true;
-
             TextGameObject text1 = new TextGameObject(new Point(100, 100));
-
+            text1.text = "naujas";
             List<GameObject> scene1GameObjects = new List<GameObject>() {playerGameObject, cube1, cube2, text1};
-            
             GameScene scene1 = new GameScene(scene1GameObjects);
-            
             gameManager.gameScenes.Add(scene1);
 
 
@@ -95,7 +93,10 @@ namespace FormsGameEngineFormExample
 
         void PlayerHit( GameObject2D _sender, GameObject2D _other)
         {
-            Console.Out.WriteLine("Ahh, i hit " + _other);
+            if(_other.objectTag == "trigger")
+            {
+                Console.Out.WriteLine("Hit");
+            }
         }
     }
 }
