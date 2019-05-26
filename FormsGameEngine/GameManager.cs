@@ -74,8 +74,8 @@ namespace FormsGameEngine
                 if (obj.objectVelocity != new System.Drawing.Point(0, 0))
                 {
                     GameObject2D other = null;
-                    if (!IsLocationBlocked(obj, new Point(obj.boundingBox.max.X + obj.objectVelocity.X, obj.boundingBox.max.Y + obj.objectVelocity.Y), collidingObjects, out other)
-                        && !IsLocationBlocked(obj, new Point(obj.boundingBox.min.X + obj.objectVelocity.X, obj.boundingBox.min.Y + obj.objectVelocity.Y), collidingObjects, out other)
+                    if (!IsLocationBlocked(obj, new Point(obj.boundingBox.max.X + obj.objectVelocity.X + obj.gameObjectLocation.X, obj.boundingBox.max.Y + obj.objectVelocity.Y + obj.gameObjectLocation.Y), collidingObjects, out other)
+                        && !IsLocationBlocked(obj, new Point(obj.boundingBox.min.X + obj.objectVelocity.X + obj.gameObjectLocation.X, obj.boundingBox.min.Y + obj.objectVelocity.Y + obj.gameObjectLocation.Y), collidingObjects, out other)
                         )
                     {
                         obj.gameObjectLocation.X += obj.objectVelocity.X;
@@ -131,7 +131,7 @@ namespace FormsGameEngine
             {
                 if (_collidingObjects[y] != _object)
                 {
-                    if ((_location.X > _collidingObjects[y].boundingBox.min.X && _location.Y > _collidingObjects[y].boundingBox.min.Y) && (_location.X < _collidingObjects[y].boundingBox.max.X && _location.Y < _collidingObjects[y].boundingBox.max.Y))
+                    if ((_location.X > _collidingObjects[y].boundingBox.min.X + _collidingObjects[y].gameObjectLocation.Y && _location.Y > _collidingObjects[y].boundingBox.min.Y + _collidingObjects[y].gameObjectLocation.Y) && (_location.X < _collidingObjects[y].boundingBox.max.X + _collidingObjects[y].gameObjectLocation.X && _location.Y < _collidingObjects[y].boundingBox.max.Y + _collidingObjects[y].gameObjectLocation.Y))
                     {
                         _other = _collidingObjects[y];
                         return true;

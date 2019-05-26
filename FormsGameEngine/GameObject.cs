@@ -63,8 +63,8 @@ namespace FormsGameEngine
             cubeSize = _cubeSize;
             cubeColor = _cubeColor;
 
-            Point min = new Point(gameObjectLocation.X - cubeSize.Width / 2, gameObjectLocation.Y - cubeSize.Height / 2);
-            Point max = new Point(gameObjectLocation.X + cubeSize.Width / 2, gameObjectLocation.Y + cubeSize.Height / 2);
+            Point min = new Point(0, 0);
+            Point max = new Point(cubeSize.Width, cubeSize.Height);
             boundingBox = new BoundingBox(min, max);
         }
 

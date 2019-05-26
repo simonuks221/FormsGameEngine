@@ -32,7 +32,7 @@ namespace FormsGameEngineFormExample
             playerGameObject = new CubeGameObject(new Point(30, 30), new Size(10, 10), Color.Green);
             playerGameObject.OnCollision += PlayerHit;
 
-            List<GameObject> scene1GameObjects = new List<GameObject>() {playerGameObject, new CubeGameObject(new Point(0, 0), new Size(20, 20), Color.Red), new CubeGameObject(new Point(50, 50), new Size(5, 5), Color.Red)};
+            List<GameObject> scene1GameObjects = new List<GameObject>() {playerGameObject, new CubeGameObject(new Point(0, 0), new Size(20, 20), Color.Red), new CubeGameObject(new Point(50, 50), new Size(20, 20), Color.Red)};
             GameScene scene1 = new GameScene(scene1GameObjects);
             
             gameManager.gameScenes.Add(scene1);
@@ -57,11 +57,11 @@ namespace FormsGameEngineFormExample
                 speedMultiplier = 1;
             }
             
-            if (gameManager.keysDown.Contains(Keys.D) && playerGameObject.gameObjectLocation.X < gameManager.mainGameEnginePanel.Size.Width - 10)
+            if (gameManager.keysDown.Contains(Keys.D) && playerGameObject.gameObjectLocation.X + playerGameObject.boundingBox.max.X < gameManager.mainGameEnginePanel.Size.Width)
             {
                 playerGameObject.objectVelocity.X = speedMultiplier;
             }
-            else if (gameManager.keysDown.Contains(Keys.A) && playerGameObject.gameObjectLocation.X > 0)
+            else if (gameManager.keysDown.Contains(Keys.A) && playerGameObject.gameObjectLocation.X + playerGameObject.boundingBox.min.X > 0)
             {
                 playerGameObject.objectVelocity.X = -speedMultiplier;
             }
@@ -69,11 +69,12 @@ namespace FormsGameEngineFormExample
             {
                 playerGameObject.objectVelocity.X = 0;
             }
-            if (gameManager.keysDown.Contains(Keys.W) && playerGameObject.gameObjectLocation.Y > 0)
+
+            if (gameManager.keysDown.Contains(Keys.W) && playerGameObject.gameObjectLocation.Y + playerGameObject.boundingBox.min.Y > 0)
             {
                 playerGameObject.objectVelocity.Y = -speedMultiplier;
             }
-            else if (gameManager.keysDown.Contains(Keys.S) && playerGameObject.gameObjectLocation.Y < gameManager.mainGameEnginePanel.Size.Height - 10)
+            else if (gameManager.keysDown.Contains(Keys.S) && playerGameObject.gameObjectLocation.Y + playerGameObject.boundingBox.max.Y < gameManager.mainGameEnginePanel.Size.Height)
             {
                 playerGameObject.objectVelocity.Y = speedMultiplier;
             }
