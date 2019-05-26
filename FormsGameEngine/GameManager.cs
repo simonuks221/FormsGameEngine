@@ -62,8 +62,8 @@ namespace FormsGameEngine
             List<GameObject2D> collidingObjects = new List<GameObject2D>();
             foreach (GameObject obj in gameScenes[currentActiveScene].gameObjects) //Populate colliding objects list
             {
-                GameObject2D ob = (GameObject2D)obj;
-                if (obj != null)
+                GameObject2D ob = obj as GameObject2D;
+                if (ob != null)
                 {
                     collidingObjects.Add(ob);
                 }
@@ -126,8 +126,8 @@ namespace FormsGameEngine
             List<GameObject2D> collidingObjects = new List<GameObject2D>();
             foreach (GameObject obj in gameScenes[currentActiveScene].gameObjects) //Populate colliding objects list
             {
-                GameObject2D ob = (GameObject2D)obj;
-                if (obj != null)
+                GameObject2D ob = obj as GameObject2D;
+                if (ob != null)
                 {
                     collidingObjects.Add(ob);
                 }

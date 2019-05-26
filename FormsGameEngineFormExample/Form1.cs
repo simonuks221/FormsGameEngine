@@ -37,11 +37,14 @@ namespace FormsGameEngineFormExample
             CubeGameObject cube2 = new CubeGameObject(new Point(50, 50), new Size(20, 20), Color.Red);
             cube2.solid = true;
 
-            List<GameObject> scene1GameObjects = new List<GameObject>() {playerGameObject, cube1, cube2};
+            TextGameObject text1 = new TextGameObject(new Point(100, 100));
+
+            List<GameObject> scene1GameObjects = new List<GameObject>() {playerGameObject, cube1, cube2, text1};
             
             GameScene scene1 = new GameScene(scene1GameObjects);
             
             gameManager.gameScenes.Add(scene1);
+
 
             gameManager.Tick += GameManager_Tick;
         }

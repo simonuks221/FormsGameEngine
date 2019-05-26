@@ -10,12 +10,50 @@ namespace FormsGameEngine
 {
     public abstract class GameObject
     {
+        public string objectTag;
 
         public GameObject()
         {
             
         }
         public abstract void UpdateObject(MainGameEnginePanel _mainGameEnginePanel);
+    }
+
+    public abstract class GameObjectControl : GameObject
+    {
+        public Control gameObjectControl;
+        public Point gameObjectLocation;
+
+        public GameObjectControl(Point _gameObjectLocation)
+        {
+            gameObjectLocation = _gameObjectLocation;
+        }
+    }
+
+    public class TextGameObject : GameObjectControl
+    {
+        public string text;
+
+        public TextGameObject(Point _textLocation) : base(_textLocation)
+        {
+            text = "Null";
+        }
+
+        public override void UpdateObject(MainGameEnginePanel _mainGameEnginePanel)
+        {
+            if (gameObjectControl != null)
+            {
+                gameObjectControl.Dispose();
+            }
+            
+            Label newLabel = new Label();
+            newLabel.Text = text;
+
+            gameObjectControl = newLabel;
+            gameObjectControl.Location = gameObjectLocation;
+
+            _mainGameEnginePanel.Controls.Add(gameObjectControl);
+        }
     }
 
     public struct BoundingBox
@@ -29,21 +67,20 @@ namespace FormsGameEngine
         }
     }
 
-    public abstract class GameObject2D : GameObject
+    
+
+    public abstract class GameObject2D : GameObjectControl
     {
         public delegate void CollisionHandler(GameObject2D _sender, GameObject2D _other);
         public event CollisionHandler OnCollision;
-
-        public Control gameObjectControl;
-        public Point gameObjectLocation;
 
         public bool solid = false;
         public BoundingBox boundingBox;
         public Point objectVelocity = new Point(0, 0);
 
-        public GameObject2D(Point _gameObject2DLocation)
+        public GameObject2D(Point _gameObject2DLocation) : base(_gameObject2DLocation)
         {
-            gameObjectLocation = _gameObject2DLocation;
+            
         }
 
         public void Collision( GameObject2D Collider)
