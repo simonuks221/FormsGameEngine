@@ -36,6 +36,20 @@ namespace FormsGameEngineFormExample
 
             gameManager = new GameManager(this, mainGameEnginePanel);
 
+            CubeGameObject leftTrigger = new CubeGameObject(new Point(-2, 0), new Size(2, 200), Color.Red);
+            leftTrigger.objectTag = "leftTrigger";
+            leftTrigger.solid = true;
+            CubeGameObject rightTrigger = new CubeGameObject(new Point(400, 0), new Size(2, 200), Color.Red);
+            rightTrigger.objectTag = "rightTrigger";
+            rightTrigger.solid = true;
+
+            CubeGameObject topSide = new CubeGameObject(new Point(0, -2), new Size(400, 2), Color.Red);
+            topSide.objectTag = "side";
+            topSide.solid = true;
+            CubeGameObject bottomSide = new CubeGameObject(new Point(0, 200), new Size(400, 2), Color.Red);
+            bottomSide.objectTag = "side";
+            bottomSide.solid = true;
+
             leftHadle = new CubeGameObject(new Point(25, 100), new Size(10, 50), Color.Green);
             leftHadle.solid = true;
             leftHadle.objectTag = "handle";
@@ -55,45 +69,19 @@ namespace FormsGameEngineFormExample
             leftScoreText = new TextGameObject(new Point(20, 0));
             leftScoreText.text = leftScore.ToString();
 
-            List<GameObject> scene1GameObjects = new List<GameObject>() { leftHadle, rightHandle, leftScoreText, rightScoreText, ballObject};
+            List<GameObject> scene1GameObjects = new List<GameObject>() { leftHadle, rightHandle, leftScoreText, rightScoreText, ballObject, topSide, bottomSide, leftTrigger, rightTrigger};
             GameScene scene1 = new GameScene(scene1GameObjects);
             gameManager.gameScenes.Add(scene1);
 
             gameManager.Tick += GameManager_Tick;
         }
 
-        private void GameManager_Tick()
+        private void GameManager_Tick() //Game loop
         {
-            CheckBallPosition();
             SetupPlayerMovement();
         }
 
-        void CheckBallPosition()
-        {
-            if (ballObject.gameObjectLocation.X > 390) //Point to left
-            {
-                leftScore++;
-                leftScoreText.text = leftScore.ToString();
-                ballObject.gameObjectLocation = new Point(200, 100);
-            }
-            else if(ballObject.gameObjectLocation.X < 10) //Point to right
-            {
-                rightScore++;
-                rightScoreText.text = rightScore.ToString();
-                ballObject.gameObjectLocation = new Point(200, 100);
-            }
-            
-            if (ballObject.gameObjectLocation.Y < 10) //Bounce from top
-            {
-                ballObject.objectVelocity = new Point(ballObject.objectVelocity.X, ballObject.objectVelocity.Y * -1);
-            }
-            else if (ballObject.gameObjectLocation.Y > 190) //Bounce from bottom
-            {
-                ballObject.objectVelocity = new Point(ballObject.objectVelocity.X, ballObject.objectVelocity.Y * -1);
-            }
-        }
-
-        void SetupPlayerMovement()
+        void SetupPlayerMovement() //handle movement
         {
             if (gameManager.keysDown.Contains(Keys.W) && leftHadle.gameObjectLocation.Y + leftHadle.boundingBox.min.Y > 0)
             {
@@ -124,9 +112,26 @@ namespace FormsGameEngineFormExample
 
         void BallCollision(GameObject2D _sender, GameObject2D _other)
         {
-            if (_other.objectTag == "handle")
+            if (_other.objectTag == "handle") //Hit one of the handles
             {
                 ballObject.objectVelocity = new Point(ballObject.objectVelocity.X * -1, ballObject.objectVelocity.Y);
+            }
+            else if (_other.objectTag == "side") //Hit top / bottom of screen
+            {
+                ballObject.objectVelocity = new Point(ballObject.objectVelocity.X, ballObject.objectVelocity.Y * -1);
+            }
+            else if (_other.objectTag == "leftTrigger") //Add point to right side
+            {
+                rightScore++;
+                rightScoreText.text = rightScore.ToString();
+                ballObject.gameObjectLocation = new Point(200, 100);
+                Console.Out.WriteLine(ballObject.gameObjectLocation);
+            }
+            else if (_other.objectTag == "rightTrigger") //Add point to left side
+            {
+                leftScore++;
+                leftScoreText.text = leftScore.ToString();
+                ballObject.gameObjectLocation = new Point(200, 100);
             }
             else
             {
