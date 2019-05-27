@@ -20,6 +20,9 @@ namespace FormsGameEngineFormExample
         TextGameObject rightScoreText;
         TextGameObject leftScoreText;
 
+        int handleSpeed = 2;
+        int ballSpeed = 2;
+
         int leftScore = 0;
         int rightScore = 0;
 
@@ -58,8 +61,10 @@ namespace FormsGameEngineFormExample
             rightHandle.objectTag = "handle";
 
             ballObject = new CubeGameObject(new Point(200, 100), new Size(10, 10), Color.Black);
+            List<Point> ballVelocities = new List<Point>() { new Point(1, 1), new Point(-1, -1), new Point(-1, 1), new Point(1, -1)};
             Random r = new Random();
-            ballObject.objectVelocity = new Point(1, 1);
+            Console.Out.WriteLine(ballVelocities.Count());
+            ballObject.objectVelocity = ballVelocities[r.Next(0, ballVelocities.Count())];
             ballObject.objectTag = "ball";
             ballObject.solid = true;
             ballObject.OnCollision += BallCollision;
@@ -85,11 +90,11 @@ namespace FormsGameEngineFormExample
         {
             if (gameManager.keysDown.Contains(Keys.W) && leftHadle.gameObjectLocation.Y + leftHadle.boundingBox.min.Y > 0)
             {
-                leftHadle.objectVelocity.Y = -1;
+                leftHadle.objectVelocity.Y = -handleSpeed;
             }
             else if (gameManager.keysDown.Contains(Keys.S) && leftHadle.gameObjectLocation.Y + leftHadle.boundingBox.max.Y < gameManager.mainGameEnginePanel.Size.Height)
             {
-                leftHadle.objectVelocity.Y = 1;
+                leftHadle.objectVelocity.Y = handleSpeed;
             }
             else
             {
@@ -98,11 +103,11 @@ namespace FormsGameEngineFormExample
 
             if (gameManager.keysDown.Contains(Keys.Up) && rightHandle.gameObjectLocation.Y + rightHandle.boundingBox.min.Y > 0)
             {
-                rightHandle.objectVelocity.Y = -1;
+                rightHandle.objectVelocity.Y = -handleSpeed;
             }
             else if (gameManager.keysDown.Contains(Keys.Down) && rightHandle.gameObjectLocation.Y + rightHandle.boundingBox.max.Y < gameManager.mainGameEnginePanel.Size.Height)
             {
-                rightHandle.objectVelocity.Y = 1;
+                rightHandle.objectVelocity.Y = handleSpeed;
             }
             else
             {
