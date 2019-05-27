@@ -68,8 +68,6 @@ namespace FormsGameEngine
         }
     }
 
-    
-
     public abstract class GameObject2D : GameObjectControl
     {
         public delegate void CollisionHandler(GameObject2D _sender, GameObject2D _other);
@@ -89,7 +87,6 @@ namespace FormsGameEngine
             OnCollision?.Invoke(this, Collider);
         }
     }
-
 
     public class CubeGameObject : GameObject2D
     {

@@ -32,11 +32,11 @@
             // 
             // Form1
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
             this.ClientSize = new System.Drawing.Size(842, 445);
             this.Name = "Form1";
-            this.Text = "Form1";
+            this.Text = "Ping pong";
             this.Load += new System.EventHandler(this.Form1_Load);
             this.ResumeLayout(false);
 

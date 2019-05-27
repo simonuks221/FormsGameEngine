@@ -5,7 +5,7 @@ VisualStudioVersion = 15.0.28307.421
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FormsGameEngine", "FormsGameEngine\FormsGameEngine.csproj", "{EAC3CD77-36CF-407A-A3DE-1F52B6F8E969}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FormsGameEngineFormExample", "FormsGameEngineFormExample\FormsGameEngineFormExample.csproj", "{EDE9FB72-F32B-41B7-98E7-C17ED44CC053}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FormsGameEnginePingPong", "FormsGameEngineFormExample\FormsGameEnginePingPong.csproj", "{EDE9FB72-F32B-41B7-98E7-C17ED44CC053}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

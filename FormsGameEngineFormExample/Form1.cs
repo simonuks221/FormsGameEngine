@@ -14,7 +14,14 @@ namespace FormsGameEngineFormExample
     public partial class Form1 : Form
     {
         GameManager gameManager;
-        GameObject2D playerGameObject;
+        GameObject2D leftHadle;
+        GameObject2D rightHandle;
+        GameObject2D ballObject;
+        TextGameObject rightScoreText;
+        TextGameObject leftScoreText;
+
+        int leftScore = 0;
+        int rightScore = 0;
 
         public Form1()
         {
@@ -23,79 +30,107 @@ namespace FormsGameEngineFormExample
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            MainGameEnginePanel mainGameEnginePanel = new MainGameEnginePanel(new Size(700, 400));
+            MainGameEnginePanel mainGameEnginePanel = new MainGameEnginePanel(new Size(400, 200));
             Controls.Add(mainGameEnginePanel);
             mainGameEnginePanel.Location = new Point(0, 0);
 
             gameManager = new GameManager(this, mainGameEnginePanel);
 
-            playerGameObject = new CubeGameObject(new Point(30, 30), new Size(10, 10), Color.Green);
-            playerGameObject.OnCollision += PlayerHit;
+            leftHadle = new CubeGameObject(new Point(25, 100), new Size(10, 50), Color.Green);
+            leftHadle.solid = true;
+            leftHadle.objectTag = "handle";
+            rightHandle = new CubeGameObject(new Point(375, 100), new Size(10, 50), Color.Green);
+            rightHandle.solid = true;
+            rightHandle.objectTag = "handle";
 
-            CubeGameObject cube1 = new CubeGameObject(new Point(0, 0), new Size(20, 20), Color.Red);
-            cube1.solid = false;
-            cube1.objectTag = "trigger";
-            CubeGameObject cube2 = new CubeGameObject(new Point(50, 50), new Size(20, 20), Color.Red);
-            cube2.solid = true;
-            TextGameObject text1 = new TextGameObject(new Point(100, 100));
-            text1.text = "naujas";
-            List<GameObject> scene1GameObjects = new List<GameObject>() {playerGameObject, cube1, cube2, text1};
+            ballObject = new CubeGameObject(new Point(200, 100), new Size(10, 10), Color.Black);
+            Random r = new Random();
+            ballObject.objectVelocity = new Point(1, 1);
+            ballObject.objectTag = "ball";
+            ballObject.solid = true;
+            ballObject.OnCollision += BallCollision;
+
+            rightScoreText = new TextGameObject(new Point(350, 0));
+            rightScoreText.text = rightScore.ToString();
+            leftScoreText = new TextGameObject(new Point(20, 0));
+            leftScoreText.text = leftScore.ToString();
+
+            List<GameObject> scene1GameObjects = new List<GameObject>() { leftHadle, rightHandle, leftScoreText, rightScoreText, ballObject};
             GameScene scene1 = new GameScene(scene1GameObjects);
             gameManager.gameScenes.Add(scene1);
-
 
             gameManager.Tick += GameManager_Tick;
         }
 
         private void GameManager_Tick()
         {
+            CheckBallPosition();
             SetupPlayerMovement();
+        }
+
+        void CheckBallPosition()
+        {
+            if (ballObject.gameObjectLocation.X > 390) //Point to left
+            {
+                leftScore++;
+                leftScoreText.text = leftScore.ToString();
+                ballObject.gameObjectLocation = new Point(200, 100);
+            }
+            else if(ballObject.gameObjectLocation.X < 10) //Point to right
+            {
+                rightScore++;
+                rightScoreText.text = rightScore.ToString();
+                ballObject.gameObjectLocation = new Point(200, 100);
+            }
+            
+            if (ballObject.gameObjectLocation.Y < 10) //Bounce from top
+            {
+                ballObject.objectVelocity = new Point(ballObject.objectVelocity.X, ballObject.objectVelocity.Y * -1);
+            }
+            else if (ballObject.gameObjectLocation.Y > 190) //Bounce from bottom
+            {
+                ballObject.objectVelocity = new Point(ballObject.objectVelocity.X, ballObject.objectVelocity.Y * -1);
+            }
         }
 
         void SetupPlayerMovement()
         {
-            int speedMultiplier = 1; //For greater speed when Shift is pressed
-            if (gameManager.keysDown.Contains(Keys.ShiftKey))
+            if (gameManager.keysDown.Contains(Keys.W) && leftHadle.gameObjectLocation.Y + leftHadle.boundingBox.min.Y > 0)
             {
-                speedMultiplier = 3;
+                leftHadle.objectVelocity.Y = -1;
+            }
+            else if (gameManager.keysDown.Contains(Keys.S) && leftHadle.gameObjectLocation.Y + leftHadle.boundingBox.max.Y < gameManager.mainGameEnginePanel.Size.Height)
+            {
+                leftHadle.objectVelocity.Y = 1;
             }
             else
             {
-                speedMultiplier = 1;
-            }
-            
-            if (gameManager.keysDown.Contains(Keys.D) && playerGameObject.gameObjectLocation.X + playerGameObject.boundingBox.max.X < gameManager.mainGameEnginePanel.Size.Width)
-            {
-                playerGameObject.objectVelocity.X = speedMultiplier;
-            }
-            else if (gameManager.keysDown.Contains(Keys.A) && playerGameObject.gameObjectLocation.X + playerGameObject.boundingBox.min.X > 0)
-            {
-                playerGameObject.objectVelocity.X = -speedMultiplier;
-            }
-            else
-            {
-                playerGameObject.objectVelocity.X = 0;
+                leftHadle.objectVelocity.Y = 0;
             }
 
-            if (gameManager.keysDown.Contains(Keys.W) && playerGameObject.gameObjectLocation.Y + playerGameObject.boundingBox.min.Y > 0)
+            if (gameManager.keysDown.Contains(Keys.Up) && rightHandle.gameObjectLocation.Y + rightHandle.boundingBox.min.Y > 0)
             {
-                playerGameObject.objectVelocity.Y = -speedMultiplier;
+                rightHandle.objectVelocity.Y = -1;
             }
-            else if (gameManager.keysDown.Contains(Keys.S) && playerGameObject.gameObjectLocation.Y + playerGameObject.boundingBox.max.Y < gameManager.mainGameEnginePanel.Size.Height)
+            else if (gameManager.keysDown.Contains(Keys.Down) && rightHandle.gameObjectLocation.Y + rightHandle.boundingBox.max.Y < gameManager.mainGameEnginePanel.Size.Height)
             {
-                playerGameObject.objectVelocity.Y = speedMultiplier;
+                rightHandle.objectVelocity.Y = 1;
             }
             else
             {
-                playerGameObject.objectVelocity.Y = 0;
+                rightHandle.objectVelocity.Y = 0;
             }
         }
 
-        void PlayerHit( GameObject2D _sender, GameObject2D _other)
+        void BallCollision(GameObject2D _sender, GameObject2D _other)
         {
-            if(_other.objectTag == "trigger")
+            if (_other.objectTag == "handle")
             {
-                Console.Out.WriteLine("Hit");
+                ballObject.objectVelocity = new Point(ballObject.objectVelocity.X * -1, ballObject.objectVelocity.Y);
+            }
+            else
+            {
+                throw new Exception(_other.objectTag);
             }
         }
     }
