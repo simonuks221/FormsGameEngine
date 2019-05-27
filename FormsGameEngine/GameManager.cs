@@ -118,8 +118,11 @@ namespace FormsGameEngine
                             }
                         }
                     }
-                    obj.gameObjectLocation.X = newLocX;
-                    obj.gameObjectLocation.Y = newLocY;
+                    if (other == null) //If no collision then move up
+                    {
+                        obj.gameObjectLocation.X = newLocX;
+                        obj.gameObjectLocation.Y = newLocY;
+                    }
                 }
             }
         }
@@ -132,7 +135,7 @@ namespace FormsGameEngine
                 {
                     if (_collidingObjects[y].solid)
                     {
-                        if ((_location.X > _collidingObjects[y].boundingBox.min.X + _collidingObjects[y].gameObjectLocation.X && _location.Y > _collidingObjects[y].boundingBox.min.Y + _collidingObjects[y].gameObjectLocation.Y) && (_location.X < _collidingObjects[y].boundingBox.max.X + _collidingObjects[y].gameObjectLocation.X && _location.Y < _collidingObjects[y].boundingBox.max.Y + _collidingObjects[y].gameObjectLocation.Y))
+                        if ((_location.X >= _collidingObjects[y].boundingBox.min.X + _collidingObjects[y].gameObjectLocation.X && _location.Y >= _collidingObjects[y].boundingBox.min.Y + _collidingObjects[y].gameObjectLocation.Y) && (_location.X <= _collidingObjects[y].boundingBox.max.X + _collidingObjects[y].gameObjectLocation.X && _location.Y <= _collidingObjects[y].boundingBox.max.Y + _collidingObjects[y].gameObjectLocation.Y))
                         {
                             _other = _collidingObjects[y];
                             return true;

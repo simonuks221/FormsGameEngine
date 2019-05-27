@@ -36,17 +36,17 @@ namespace FormsGameEngineFormExample
 
             gameManager = new GameManager(this, mainGameEnginePanel);
 
-            CubeGameObject leftTrigger = new CubeGameObject(new Point(-2, 0), new Size(2, 200), Color.Red);
+            CubeGameObject leftTrigger = new CubeGameObject(new Point(-1, 0), new Size(1, 200), Color.Red);
             leftTrigger.objectTag = "leftTrigger";
             leftTrigger.solid = true;
-            CubeGameObject rightTrigger = new CubeGameObject(new Point(400, 0), new Size(2, 200), Color.Red);
+            CubeGameObject rightTrigger = new CubeGameObject(new Point(400, 0), new Size(1, 200), Color.Red);
             rightTrigger.objectTag = "rightTrigger";
             rightTrigger.solid = true;
 
-            CubeGameObject topSide = new CubeGameObject(new Point(0, -2), new Size(400, 2), Color.Red);
+            CubeGameObject topSide = new CubeGameObject(new Point(0, -1), new Size(400, 1), Color.Red);
             topSide.objectTag = "side";
             topSide.solid = true;
-            CubeGameObject bottomSide = new CubeGameObject(new Point(0, 200), new Size(400, 2), Color.Red);
+            CubeGameObject bottomSide = new CubeGameObject(new Point(0, 200), new Size(400, 1), Color.Red);
             bottomSide.objectTag = "side";
             bottomSide.solid = true;
 
@@ -81,7 +81,7 @@ namespace FormsGameEngineFormExample
             SetupPlayerMovement();
         }
 
-        void SetupPlayerMovement() //handle movement
+        void SetupPlayerMovement() //Both handle movement
         {
             if (gameManager.keysDown.Contains(Keys.W) && leftHadle.gameObjectLocation.Y + leftHadle.boundingBox.min.Y > 0)
             {
@@ -125,7 +125,6 @@ namespace FormsGameEngineFormExample
                 rightScore++;
                 rightScoreText.text = rightScore.ToString();
                 ballObject.gameObjectLocation = new Point(200, 100);
-                Console.Out.WriteLine(ballObject.gameObjectLocation);
             }
             else if (_other.objectTag == "rightTrigger") //Add point to left side
             {
