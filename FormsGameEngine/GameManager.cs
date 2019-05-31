@@ -175,9 +175,13 @@ namespace FormsGameEngine
         #region KeyHandling
         private void Form_KeyDown(object sender, KeyEventArgs e)
         {
-            if (!keysDown.Contains(e.KeyCode))
+            TextBox isTextBox = sender as TextBox;
+            if (isTextBox == null)
             {
-                keysDown.Add(e.KeyCode);
+                if (!keysDown.Contains(e.KeyCode))
+                {
+                    keysDown.Add(e.KeyCode);
+                }
             }
         }
 
