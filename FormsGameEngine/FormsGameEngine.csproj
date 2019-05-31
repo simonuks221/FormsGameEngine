@@ -55,6 +55,7 @@
     </Compile>
     <Compile Include="GameScene.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TextGameObject.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

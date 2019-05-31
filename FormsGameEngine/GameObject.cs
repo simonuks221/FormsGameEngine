@@ -29,31 +29,4 @@ namespace FormsGameEngine
             gameObjectLocation = _gameObjectLocation;
         }
     }
-
-    public class TextGameObject : GameObjectControl
-    {
-        public string text;
-
-        public TextGameObject(Point _textLocation) : base(_textLocation)
-        {
-            text = "Null";
-        }
-
-        public override void UpdateObject(MainGameEnginePanel _mainGameEnginePanel)
-        {
-            Label label;
-            if(gameObjectControl == null)
-            {
-                label = new Label();
-                gameObjectControl = label;
-                _mainGameEnginePanel.Controls.Add(gameObjectControl);
-            }
-            else
-            {
-                label = (Label)gameObjectControl;
-            }
-            gameObjectControl.Location = gameObjectLocation;
-            label.Text = text;
-        }
-    }
 }

@@ -19,6 +19,7 @@ namespace FormsGameEngineFormExample
         GameObject2D ballObject;
         TextGameObject rightScoreText;
         TextGameObject leftScoreText;
+        TextGameObject victoryText;
         TextGameObject gameTimeText;
 
         int handleSpeed = 2;
@@ -28,6 +29,9 @@ namespace FormsGameEngineFormExample
         int rightScore = 0;
 
         bool aiOponent = true;
+        int victoryScoreAmount = 3;
+
+        List<Point> ballVelocities;
 
         public Form1()
         {
@@ -64,8 +68,8 @@ namespace FormsGameEngineFormExample
             rightHandle.objectTag = "handle";
 
             ballObject = new Box2dGameObject(new Point(200, 100), new Size(10, 10), Color.Black);
-            List<Point> ballVelocities = new List<Point>() { new Point(ballSpeed, ballSpeed), new Point(-ballSpeed, -ballSpeed), new Point(-ballSpeed, ballSpeed), new Point(ballSpeed, -ballSpeed)};
             Random r = new Random();
+            ballVelocities = new List<Point>() { new Point(ballSpeed, ballSpeed), new Point(-ballSpeed, -ballSpeed), new Point(-ballSpeed, ballSpeed), new Point(ballSpeed, -ballSpeed) };
             ballObject.objectVelocity = ballVelocities[r.Next(0, ballVelocities.Count())];
             ballObject.objectTag = "ball";
             ballObject.solid = true;
@@ -82,6 +86,13 @@ namespace FormsGameEngineFormExample
             List<GameObject> scene1GameObjects = new List<GameObject>() {leftHadle, rightHandle, leftScoreText, rightScoreText, ballObject, topSide, bottomSide, leftTrigger, rightTrigger, gameTimeText};
             GameScene gameScene = new GameScene(scene1GameObjects);
             gameManager.AddScene(gameScene);
+
+            victoryText = new TextGameObject(new Point(200, 100));
+            GameScene victoryScene = new GameScene(new List<GameObject>() { victoryText});
+            gameManager.AddScene(victoryScene);
+
+            VictoryScoreAmountTextBox.Text = victoryScoreAmount.ToString();
+            BallSpeedTextBox.Text = ballSpeed.ToString();
 
             gameManager.Tick += GameManager_Tick;
         }
@@ -140,21 +151,44 @@ namespace FormsGameEngineFormExample
             {
                 ballObject.objectVelocity = new Point(ballObject.objectVelocity.X, ballObject.objectVelocity.Y * -1);
             }
-            else if (_other.objectTag == "leftTrigger") //Add point to right side
+            else if (_other.objectTag.Contains("Trigger")) //Hit left or right trigger
             {
-                rightScore++;
-                rightScoreText.text = rightScore.ToString();
-                ballObject.gameObjectLocation = new Point(200, 100);
-            }
-            else if (_other.objectTag == "rightTrigger") //Add point to left side
-            {
-                leftScore++;
-                leftScoreText.text = leftScore.ToString();
-                ballObject.gameObjectLocation = new Point(200, 100);
+                if (_other.objectTag == "leftTrigger") //Add points to right
+                {
+                    rightScore++;
+                    rightScoreText.text = rightScore.ToString();
+                }
+                else //Add points to left
+                {
+                    leftScore++;
+                    leftScoreText.text = leftScore.ToString();
+                }
+
+                if (leftScore >= victoryScoreAmount || rightScore >= victoryScoreAmount) //Winning conditions
+                {
+                    gameManager.ChangeScene(1);
+
+                    if(leftScore >= victoryScoreAmount) //Left won
+                    {
+                        victoryText.text = "Left";
+                    }
+                    else //Right won
+                    {
+                        victoryText.text = "Right";
+                    }
+                    victoryText.text += " won";
+                }
+                else //No winners yet, continue the game
+                {
+                    ballObject.gameObjectLocation = new Point(200, 100);
+                    Random r = new Random();
+                    ballObject.objectVelocity = ballVelocities[r.Next(0, ballVelocities.Count)];
+                    
+                }
             }
             else
             {
-                throw new Exception(_other.objectTag);
+                throw new Exception(_other.objectTag + " ball hit something bad");
             }
         }
 
@@ -173,6 +207,34 @@ namespace FormsGameEngineFormExample
         private void EnemyAiCheckBox_CheckedChanged(object sender, EventArgs e)
         {
             aiOponent = EnemyAiCheckBox.Checked;
+        }
+
+        private void BallSpeedTextBox_TextChanged(object sender, EventArgs e)
+        {
+            int newBallSpeed = 0;
+            if (Int32.TryParse(BallSpeedTextBox.Text, out newBallSpeed)) //user inputed a valid speed
+            {
+                ballSpeed = newBallSpeed;
+                ballVelocities = new List<Point>() { new Point(ballSpeed, ballSpeed), new Point(-ballSpeed, -ballSpeed), new Point(-ballSpeed, ballSpeed), new Point(ballSpeed, -ballSpeed) };
+
+                if (ballObject.objectVelocity.X != 0)
+                {
+                    ballObject.objectVelocity.X = ballSpeed;
+                }
+                if (ballObject.objectVelocity.Y != 0)
+                {
+                    ballObject.objectVelocity.Y = ballSpeed;
+                }
+            }
+        }
+
+        private void VictoryScoreAmountTextBox_TextChanged(object sender, EventArgs e)
+        {
+            int newVictoryScore = 0;
+            if (Int32.TryParse(VictoryScoreAmountTextBox.Text, out newVictoryScore)) //user inputed a valid speed
+            {
+                victoryScoreAmount = newVictoryScore;
+            }
         }
     }
 }

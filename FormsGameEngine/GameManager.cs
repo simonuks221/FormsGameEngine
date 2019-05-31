@@ -200,5 +200,23 @@ namespace FormsGameEngine
         {
             gameScenes.Add(_gameScene);
         }
+
+        public void ChangeScene(int _newSceneIndex)
+        {
+            foreach (GameObject g in gameScenes[currentActiveScene].gameObjects) //Clear leftover Controls
+            {
+                GameObjectControl c = g as GameObjectControl;
+                if (c != null)
+                {
+                    c.gameObjectControl.Dispose();
+                }
+            }
+            for (int i = 0; i < mainGameEnginePanel.Controls.Count; i++)
+            {
+                mainGameEnginePanel.Controls[i].Dispose();
+            }
+
+            currentActiveScene = _newSceneIndex;
+        }
     }
 }
