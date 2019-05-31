@@ -46,7 +46,8 @@ namespace FormsGameEngine
             ApplyCollisionWithVelocity();
             Tick();
             UpdateCurrentGamePanel();
-            GameCycle();
+
+            GameCycle(); //Continue the cycle
         }
 
         public void Delayed(int delay, Action action)

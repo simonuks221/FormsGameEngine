@@ -41,19 +41,19 @@ namespace FormsGameEngine
 
         public override void UpdateObject(MainGameEnginePanel _mainGameEnginePanel)
         {
-            if (gameObjectControl != null)
+            Label label;
+            if(gameObjectControl == null)
             {
-                gameObjectControl.Dispose();
+                label = new Label();
+                gameObjectControl = label;
+                _mainGameEnginePanel.Controls.Add(gameObjectControl);
             }
-            
-            Label newLabel = new Label();
-
-            newLabel.Text = text;
-
-            gameObjectControl = newLabel;
+            else
+            {
+                label = (Label)gameObjectControl;
+            }
             gameObjectControl.Location = gameObjectLocation;
-
-            _mainGameEnginePanel.Controls.Add(gameObjectControl);
+            label.Text = text;
         }
     }
 
@@ -104,20 +104,22 @@ namespace FormsGameEngine
         }
 
         public override void  UpdateObject(MainGameEnginePanel _mainGameEnginePanel)
-        { 
-            if(gameObjectControl != null)
+        {
+            Panel panel;
+            if(gameObjectControl == null)
             {
-                gameObjectControl.Dispose();
+                panel = new Panel();
+                panel.Size = cubeSize;
+                panel.BackColor = cubeColor;
+                gameObjectControl = panel;
+                _mainGameEnginePanel.Controls.Add(gameObjectControl);
             }
-
-            Panel newPanel = new Panel();
-            newPanel.Size = cubeSize;
-            newPanel.BackColor = cubeColor;
-
-            gameObjectControl = newPanel;
+            else
+            {
+                panel = (Panel)gameObjectControl;
+            }
             gameObjectControl.Location = gameObjectLocation;
-
-            _mainGameEnginePanel.Controls.Add(gameObjectControl);
+            gameObjectControl.BringToFront();
         }
     }
 }
