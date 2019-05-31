@@ -25,10 +25,22 @@ namespace FormsGameEngine
         public GameManager(Form _form, MainGameEnginePanel _mainGameEnginePanel)
         {
             form = _form;
+
             form.KeyDown += Form_KeyDown;
             form.KeyUp += Form_KeyUp;
+            foreach(Control c in form.Controls)
+            {
+                c.KeyDown += Form_KeyDown;
+                c.KeyUp += Form_KeyUp;
+            }
+
             mainGameEnginePanel = _mainGameEnginePanel;
             gameScenes = new List<GameScene>();
+
+            form.Select();
+            form.Focus();
+            form.Focus();
+            Console.Out.WriteLine(form.Focused);
 
             GameCycle();
         }

@@ -46,8 +46,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Box2dGameObject.cs" />
     <Compile Include="GameManager.cs" />
     <Compile Include="GameObject.cs" />
+    <Compile Include="GameObject2D.cs" />
     <Compile Include="MainGameEnginePanel.cs">
       <SubType>Component</SubType>
     </Compile>

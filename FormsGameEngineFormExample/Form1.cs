@@ -14,8 +14,8 @@ namespace FormsGameEngineFormExample
     public partial class Form1 : Form
     {
         GameManager gameManager;
-        CubeGameObject leftHadle;
-        CubeGameObject rightHandle;
+        Box2dGameObject leftHadle;
+        Box2dGameObject rightHandle;
         GameObject2D ballObject;
         TextGameObject rightScoreText;
         TextGameObject leftScoreText;
@@ -42,31 +42,30 @@ namespace FormsGameEngineFormExample
 
             gameManager = new GameManager(this, mainGameEnginePanel);
 
-            CubeGameObject leftTrigger = new CubeGameObject(new Point(-1, 0), new Size(1, 200), Color.Red);
+            Box2dGameObject leftTrigger = new Box2dGameObject(new Point(-1, 0), new Size(1, 200), Color.Red);
             leftTrigger.objectTag = "leftTrigger";
             leftTrigger.solid = true;
-            CubeGameObject rightTrigger = new CubeGameObject(new Point(400, 0), new Size(1, 200), Color.Red);
+            Box2dGameObject rightTrigger = new Box2dGameObject(new Point(400, 0), new Size(1, 200), Color.Red);
             rightTrigger.objectTag = "rightTrigger";
             rightTrigger.solid = true;
 
-            CubeGameObject topSide = new CubeGameObject(new Point(0, -1), new Size(400, 1), Color.Red);
+            Box2dGameObject topSide = new Box2dGameObject(new Point(0, -1), new Size(400, 1), Color.Red);
             topSide.objectTag = "side";
             topSide.solid = true;
-            CubeGameObject bottomSide = new CubeGameObject(new Point(0, 200), new Size(400, 1), Color.Red);
+            Box2dGameObject bottomSide = new Box2dGameObject(new Point(0, 200), new Size(400, 1), Color.Red);
             bottomSide.objectTag = "side";
             bottomSide.solid = true;
 
-            leftHadle = new CubeGameObject(new Point(25, 100), new Size(10, 50), Color.Green);
+            leftHadle = new Box2dGameObject(new Point(25, 100), new Size(10, 50), Color.Green);
             leftHadle.solid = true;
             leftHadle.objectTag = "handle";
-            rightHandle = new CubeGameObject(new Point(375, 100), new Size(10, 50), Color.Green);
+            rightHandle = new Box2dGameObject(new Point(375, 100), new Size(10, 50), Color.Green);
             rightHandle.solid = true;
             rightHandle.objectTag = "handle";
 
-            ballObject = new CubeGameObject(new Point(200, 100), new Size(10, 10), Color.Black);
-            List<Point> ballVelocities = new List<Point>() { new Point(1, 1), new Point(-1, -1), new Point(-1, 1), new Point(1, -1)};
+            ballObject = new Box2dGameObject(new Point(200, 100), new Size(10, 10), Color.Black);
+            List<Point> ballVelocities = new List<Point>() { new Point(ballSpeed, ballSpeed), new Point(-ballSpeed, -ballSpeed), new Point(-ballSpeed, ballSpeed), new Point(ballSpeed, -ballSpeed)};
             Random r = new Random();
-            Console.Out.WriteLine(ballVelocities.Count());
             ballObject.objectVelocity = ballVelocities[r.Next(0, ballVelocities.Count())];
             ballObject.objectTag = "ball";
             ballObject.solid = true;
@@ -169,6 +168,11 @@ namespace FormsGameEngineFormExample
             {
                 rightHandle.objectVelocity = new Point(0, -1);
             }
+        }
+
+        private void EnemyAiCheckBox_CheckedChanged(object sender, EventArgs e)
+        {
+            aiOponent = EnemyAiCheckBox.Checked;
         }
     }
 }
