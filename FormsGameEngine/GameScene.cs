@@ -18,5 +18,13 @@ namespace FormsGameEngine
                 gameObjects.AddRange(_gameObjects);
             }
         }
+
+        public void AddgameObjectToScene(GameObject _gameObject)
+        {
+            if (_gameObject != null)
+            {
+                gameObjects.Add(_gameObject);
+            }
+        }
     }
 }

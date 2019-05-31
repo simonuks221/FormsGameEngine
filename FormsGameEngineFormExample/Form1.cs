@@ -80,9 +80,9 @@ namespace FormsGameEngineFormExample
             gameTimeText = new TextGameObject(new Point(200, 0));
             gameTimeText.text = "0";
 
-            List<GameObject> scene1GameObjects = new List<GameObject>() { leftHadle, rightHandle, leftScoreText, rightScoreText, ballObject, topSide, bottomSide, leftTrigger, rightTrigger, gameTimeText};
-            GameScene scene1 = new GameScene(scene1GameObjects);
-            gameManager.gameScenes.Add(scene1);
+            List<GameObject> scene1GameObjects = new List<GameObject>() {leftHadle, rightHandle, leftScoreText, rightScoreText, ballObject, topSide, bottomSide, leftTrigger, rightTrigger, gameTimeText};
+            GameScene gameScene = new GameScene(scene1GameObjects);
+            gameManager.AddScene(gameScene);
 
             gameManager.Tick += GameManager_Tick;
         }
