@@ -20,6 +20,8 @@ namespace FormsGameEngine
 
         public List<Keys> keysDown = new List<Keys>();
 
+        public float gameTime = 0; //Game time in seconds
+
         public GameManager(Form _form, MainGameEnginePanel _mainGameEnginePanel)
         {
             form = _form;
@@ -36,6 +38,7 @@ namespace FormsGameEngine
         void GameCycle()
         {
             Delayed(1, () => UpdateScreen());
+            gameTime += 1f / 60f; //Adds all game time
         }
 
         void UpdateScreen()

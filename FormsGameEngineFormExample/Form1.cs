@@ -14,17 +14,20 @@ namespace FormsGameEngineFormExample
     public partial class Form1 : Form
     {
         GameManager gameManager;
-        GameObject2D leftHadle;
-        GameObject2D rightHandle;
+        CubeGameObject leftHadle;
+        CubeGameObject rightHandle;
         GameObject2D ballObject;
         TextGameObject rightScoreText;
         TextGameObject leftScoreText;
+        TextGameObject gameTimeText;
 
         int handleSpeed = 2;
         int ballSpeed = 2;
 
         int leftScore = 0;
         int rightScore = 0;
+
+        bool aiOponent = true;
 
         public Form1()
         {
@@ -74,7 +77,10 @@ namespace FormsGameEngineFormExample
             leftScoreText = new TextGameObject(new Point(20, 0));
             leftScoreText.text = leftScore.ToString();
 
-            List<GameObject> scene1GameObjects = new List<GameObject>() { leftHadle, rightHandle, leftScoreText, rightScoreText, ballObject, topSide, bottomSide, leftTrigger, rightTrigger};
+            gameTimeText = new TextGameObject(new Point(200, 0));
+            gameTimeText.text = "0";
+
+            List<GameObject> scene1GameObjects = new List<GameObject>() { leftHadle, rightHandle, leftScoreText, rightScoreText, ballObject, topSide, bottomSide, leftTrigger, rightTrigger, gameTimeText};
             GameScene scene1 = new GameScene(scene1GameObjects);
             gameManager.gameScenes.Add(scene1);
 
@@ -84,6 +90,12 @@ namespace FormsGameEngineFormExample
         private void GameManager_Tick() //Game loop
         {
             SetupPlayerMovement();
+            if (aiOponent)
+            {
+                AiOponentMovement();
+            }
+
+            gameTimeText.text = (gameManager.gameTime).ToString();
         }
 
         void SetupPlayerMovement() //Both handle movement
@@ -101,17 +113,21 @@ namespace FormsGameEngineFormExample
                 leftHadle.objectVelocity.Y = 0;
             }
 
-            if (gameManager.keysDown.Contains(Keys.Up) && rightHandle.gameObjectLocation.Y + rightHandle.boundingBox.min.Y > 0)
+            if (!aiOponent)
             {
-                rightHandle.objectVelocity.Y = -handleSpeed;
-            }
-            else if (gameManager.keysDown.Contains(Keys.Down) && rightHandle.gameObjectLocation.Y + rightHandle.boundingBox.max.Y < gameManager.mainGameEnginePanel.Size.Height)
-            {
-                rightHandle.objectVelocity.Y = handleSpeed;
-            }
-            else
-            {
-                rightHandle.objectVelocity.Y = 0;
+
+                if (gameManager.keysDown.Contains(Keys.Up) && rightHandle.gameObjectLocation.Y + rightHandle.boundingBox.min.Y > 0)
+                {
+                    rightHandle.objectVelocity.Y = -handleSpeed;
+                }
+                else if (gameManager.keysDown.Contains(Keys.Down) && rightHandle.gameObjectLocation.Y + rightHandle.boundingBox.max.Y < gameManager.mainGameEnginePanel.Size.Height)
+                {
+                    rightHandle.objectVelocity.Y = handleSpeed;
+                }
+                else
+                {
+                    rightHandle.objectVelocity.Y = 0;
+                }
             }
         }
 
@@ -140,6 +156,18 @@ namespace FormsGameEngineFormExample
             else
             {
                 throw new Exception(_other.objectTag);
+            }
+        }
+
+        void AiOponentMovement()
+        {
+            if(ballObject.gameObjectLocation.Y > rightHandle.gameObjectLocation.Y + rightHandle.cubeSize.Height / 2)
+            {
+                rightHandle.objectVelocity = new Point(0, 1);
+            }
+            else if (ballObject.gameObjectLocation.Y < rightHandle.gameObjectLocation.Y + rightHandle.cubeSize.Height / 2)
+            {
+                rightHandle.objectVelocity = new Point(0, -1);
             }
         }
     }
