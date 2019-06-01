@@ -16,7 +16,8 @@ namespace FormsGameEngineSpaceShooter
         GameManager gameManager;
         MainGameEnginePanel mainGamePanel;
 
-        bool delayingToSpawn = false;
+        float spawnFrequency = 2f;
+        float lastSpawnTime = -100;
 
         PlayerShip playerShip;
 
@@ -27,10 +28,10 @@ namespace FormsGameEngineSpaceShooter
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            mainGamePanel = new MainGameEnginePanel(this, new Size(200, 200), new Point(0, 0));
+            mainGamePanel = new MainGameEnginePanel(this, new Size(200, 400), new Point(0, 0));
             gameManager = new GameManager(this, mainGamePanel);
 
-            playerShip = new PlayerShip(gameManager, new Point(100, 100));
+            playerShip = new PlayerShip(gameManager, new Point(100, 350));
 
             GameScene gameScene = new GameScene(new List<GameObject>() { playerShip});
             gameManager.AddScene(gameScene);
@@ -40,20 +41,20 @@ namespace FormsGameEngineSpaceShooter
 
         private void GameManager_Tick()
         {
-            if (!delayingToSpawn)
+            if (gameManager.gameTime - lastSpawnTime >= spawnFrequency)
             {
-                gameManager.Delayed(1000, () => SpawnNewEnemyShip());
-                delayingToSpawn = true;
+                SpawnNewEnemyShip();
+                lastSpawnTime = gameManager.gameTime;
             }
         }
 
         void SpawnNewEnemyShip()
         {
-            delayingToSpawn = false;
             Random r = new Random();
-            Point newEnemyLocation = new Point(r.Next(0, 200), 0);
+            Point newEnemyLocation = new Point(r.Next(0, 180), 0);
             EnemyShip newEnemyShip = new EnemyShip(gameManager, newEnemyLocation, new Size(10, 10));
             newEnemyShip.solid = true;
+            newEnemyShip.objectVelocity = new Point(0, r.Next(1, 2));
             gameManager.AddGameObjectToScene(newEnemyShip, gameManager.currentActiveScene);
         }
     }

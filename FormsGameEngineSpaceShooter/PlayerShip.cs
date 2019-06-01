@@ -11,8 +11,10 @@ namespace FormsGameEngineSpaceShooter
 {
     class PlayerShip : Box2dGameObject
     {
-        float fireRate = 1;
+        float fireRate = 0.3f;
         float lastFire = -1000;
+
+        int playerSpeed = 2;
 
         public PlayerShip(GameManager _gameManager, Point _playerLocation) : base(_gameManager,_playerLocation, new Size(20, 20), Color.Green)
         {
@@ -24,11 +26,11 @@ namespace FormsGameEngineSpaceShooter
             //Handle player movement
             if (gameManager.keysDown.Contains(Keys.D))
             {
-                this.objectVelocity = new Point(1, this.objectVelocity.Y);
+                this.objectVelocity = new Point(playerSpeed, this.objectVelocity.Y);
             }
             else if (gameManager.keysDown.Contains(Keys.A))
             {
-                this.objectVelocity = new Point(-1, this.objectVelocity.Y);
+                this.objectVelocity = new Point(-playerSpeed, this.objectVelocity.Y);
             }
             else
             {
@@ -37,11 +39,11 @@ namespace FormsGameEngineSpaceShooter
 
             if (gameManager.keysDown.Contains(Keys.W))
             {
-                this.objectVelocity = new Point(this.objectVelocity.X, -1);
+                this.objectVelocity = new Point(this.objectVelocity.X, -playerSpeed);
             }
             else if (gameManager.keysDown.Contains(Keys.S))
             {
-                this.objectVelocity = new Point(this.objectVelocity.X, 1);
+                this.objectVelocity = new Point(this.objectVelocity.X, playerSpeed);
             }
             else
             {
@@ -52,7 +54,7 @@ namespace FormsGameEngineSpaceShooter
             {
                 if (gameManager.keysDown.Contains(Keys.Space))
                 {
-                    PlayerProjectile newProjectile = new PlayerProjectile(gameManager, new Point(this.gameObjectLocation.X, this.gameObjectLocation.Y - 10));
+                    PlayerProjectile newProjectile = new PlayerProjectile(gameManager, new Point(this.gameObjectLocation.X + 7, this.gameObjectLocation.Y - 10));
                     newProjectile.solid = true;
                     gameManager.AddGameObjectToScene(newProjectile, gameManager.currentActiveScene);
                     lastFire = gameManager.gameTime;
