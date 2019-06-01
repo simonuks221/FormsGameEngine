@@ -27,7 +27,7 @@ namespace FormsGameEngine
         public BoundingBox boundingBox;
         public Point objectVelocity = new Point(0, 0);
 
-        public GameObject2D(Point _gameObject2DLocation) : base(_gameObject2DLocation)
+        public GameObject2D(GameManager _gameManager, Point _gameObject2DLocation) : base(_gameManager, _gameObject2DLocation)
         {
 
         }

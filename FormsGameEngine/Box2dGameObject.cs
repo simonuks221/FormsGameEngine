@@ -13,7 +13,7 @@ namespace FormsGameEngine
         public Size cubeSize;
         public Color cubeColor;
 
-        public Box2dGameObject(Point _cubeLocation, Size _cubeSize, Color _cubeColor) : base(_cubeLocation)
+        public Box2dGameObject(GameManager _gameManager ,Point _cubeLocation, Size _cubeSize, Color _cubeColor) : base(_gameManager,_cubeLocation)
         {
             cubeSize = _cubeSize;
             cubeColor = _cubeColor;
@@ -40,6 +40,8 @@ namespace FormsGameEngine
             }
             gameObjectControl.Location = gameObjectLocation;
             gameObjectControl.BringToFront();
+
+            UpdateObjectOverride();
         }
     }
 }

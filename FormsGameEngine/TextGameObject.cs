@@ -12,7 +12,7 @@ namespace FormsGameEngine
     {
         public string text;
 
-        public TextGameObject(Point _textLocation) : base(_textLocation)
+        public TextGameObject(GameManager _gameManager, Point _textLocation) : base(_gameManager,_textLocation)
         {
             text = "Null";
         }

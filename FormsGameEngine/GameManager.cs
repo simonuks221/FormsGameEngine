@@ -57,7 +57,10 @@ namespace FormsGameEngine
         void UpdateScreen()
         {
             ApplyCollisionWithVelocity();
-            Tick();
+            if(Tick != null)
+            {
+                Tick.Invoke();
+            }
             UpdateCurrentGamePanel();
 
             GameCycle(); //Continue the cycle
@@ -76,69 +79,72 @@ namespace FormsGameEngine
 
         public void ApplyCollisionWithVelocity()
         {
-            List<GameObject2D> collidingObjects = new List<GameObject2D>();
-            foreach (GameObject obj in gameScenes[currentActiveScene].gameObjects) //Populate colliding objects list
+            if (gameScenes.Count > 0)
             {
-                GameObject2D ob = obj as GameObject2D;
-                if (ob != null)
+                List<GameObject2D> collidingObjects = new List<GameObject2D>();
+                foreach (GameObject obj in gameScenes[currentActiveScene].gameObjects) //Populate colliding objects list
                 {
-                    collidingObjects.Add(ob);
-                }
-            }
-            
-
-            foreach (GameObject2D obj in collidingObjects) //Aplly velocity
-            {
-                if (obj.objectVelocity != new Point(0, 0))
-                {
-                    GameObject2D other = null;
-
-                    int newLocX = obj.gameObjectLocation.X + obj.objectVelocity.X;
-                    int newLocY = obj.gameObjectLocation.Y + obj.objectVelocity.Y;
-
-                    if (obj.solid)
+                    GameObject2D ob = obj as GameObject2D;
+                    if (ob != null)
                     {
-                        int biggerVelocity = Math.Abs(obj.objectVelocity.X); //Choose bigger velocity
-                        if (Math.Abs(obj.objectVelocity.Y) > Math.Abs(obj.objectVelocity.X))
-                        {
-                            biggerVelocity = Math.Abs(obj.objectVelocity.Y);
-                        }
-
-                        for (float i = 0.1f; i <= 1; i += 0.1f)
-                        {
-                            /*
-                            int velocityX = (int)Math.Ceiling((float)obj.objectVelocity.X / i);
-                            int velocityY = (int)Math.Ceiling((float)obj.objectVelocity.Y / i);
-
-                            if (!IsLocationBlocked(obj, new Point(obj.boundingBox.max.X + obj.objectVelocity.X + obj.gameObjectLocation.X, obj.boundingBox.max.Y + obj.objectVelocity.Y + obj.gameObjectLocation.Y), collidingObjects, out other)
-                            && !IsLocationBlocked(obj, new Point(obj.boundingBox.min.X + obj.objectVelocity.X + obj.gameObjectLocation.X, obj.boundingBox.min.Y + obj.objectVelocity.Y + obj.gameObjectLocation.Y), collidingObjects, out other)
-                            && !IsLocationBlocked(obj, new Point(obj.boundingBox.min.X + obj.objectVelocity.X + obj.gameObjectLocation.X, obj.boundingBox.max.Y + obj.objectVelocity.Y + obj.gameObjectLocation.Y), collidingObjects, out other)
-                            && !IsLocationBlocked(obj, new Point(obj.boundingBox.max.X + obj.objectVelocity.X + obj.gameObjectLocation.X, obj.boundingBox.min.Y + obj.objectVelocity.Y + obj.gameObjectLocation.Y), collidingObjects, out other)
-                            ) //Old method for detecting collisions
-                           */
-                            int velocityX = (int)Math.Round(obj.gameObjectLocation.X + obj.objectVelocity.X * i);
-                            int velocityY = (int)Math.Round(obj.gameObjectLocation.Y + obj.objectVelocity.Y * i);
-                            //throw new Exception((obj.boundingBox.max.X + velocityX).ToString());
-                            if (!IsLocationBlocked(obj, new Point(obj.boundingBox.max.X + velocityX , obj.boundingBox.max.Y + velocityY), collidingObjects, out other)
-                           && !IsLocationBlocked(obj, new Point(obj.boundingBox.min.X + velocityX, obj.boundingBox.min.Y + velocityY), collidingObjects, out other)
-                           && !IsLocationBlocked(obj, new Point(obj.boundingBox.min.X + velocityX, obj.boundingBox.max.Y + velocityY), collidingObjects, out other)
-                           && !IsLocationBlocked(obj, new Point(obj.boundingBox.max.X + velocityX, obj.boundingBox.min.Y + velocityY), collidingObjects, out other)
-                            )
-                            { ///If not colliding move up
-                                newLocX = velocityX;
-                                newLocY = velocityY;
-                            }
-                            else
-                            { //Colliding, invoke collision, dont move
-                                obj.Collision(other);
-                                break; //Break loop if theres and obstacle in the way of objects path depending on velocity
-                            }
-                        }
+                        collidingObjects.Add(ob);
                     }
-                    if (other == null) //If no collision then move up
+                }
+
+
+                foreach (GameObject2D obj in collidingObjects) //Aplly velocity
+                {
+                    if (obj.objectVelocity != new Point(0, 0))
                     {
-                        obj.gameObjectLocation.X = newLocX;
-                        obj.gameObjectLocation.Y = newLocY;
+                        GameObject2D other = null;
+
+                        int newLocX = obj.gameObjectLocation.X + obj.objectVelocity.X;
+                        int newLocY = obj.gameObjectLocation.Y + obj.objectVelocity.Y;
+
+                        if (obj.solid)
+                        {
+                            int biggerVelocity = Math.Abs(obj.objectVelocity.X); //Choose bigger velocity
+                            if (Math.Abs(obj.objectVelocity.Y) > Math.Abs(obj.objectVelocity.X))
+                            {
+                                biggerVelocity = Math.Abs(obj.objectVelocity.Y);
+                            }
+
+                            for (float i = 0.1f; i <= 1; i += 0.1f)
+                            {
+                                /*
+                                int velocityX = (int)Math.Ceiling((float)obj.objectVelocity.X / i);
+                                int velocityY = (int)Math.Ceiling((float)obj.objectVelocity.Y / i);
+
+                                if (!IsLocationBlocked(obj, new Point(obj.boundingBox.max.X + obj.objectVelocity.X + obj.gameObjectLocation.X, obj.boundingBox.max.Y + obj.objectVelocity.Y + obj.gameObjectLocation.Y), collidingObjects, out other)
+                                && !IsLocationBlocked(obj, new Point(obj.boundingBox.min.X + obj.objectVelocity.X + obj.gameObjectLocation.X, obj.boundingBox.min.Y + obj.objectVelocity.Y + obj.gameObjectLocation.Y), collidingObjects, out other)
+                                && !IsLocationBlocked(obj, new Point(obj.boundingBox.min.X + obj.objectVelocity.X + obj.gameObjectLocation.X, obj.boundingBox.max.Y + obj.objectVelocity.Y + obj.gameObjectLocation.Y), collidingObjects, out other)
+                                && !IsLocationBlocked(obj, new Point(obj.boundingBox.max.X + obj.objectVelocity.X + obj.gameObjectLocation.X, obj.boundingBox.min.Y + obj.objectVelocity.Y + obj.gameObjectLocation.Y), collidingObjects, out other)
+                                ) //Old method for detecting collisions
+                               */
+                                int velocityX = (int)Math.Round(obj.gameObjectLocation.X + obj.objectVelocity.X * i);
+                                int velocityY = (int)Math.Round(obj.gameObjectLocation.Y + obj.objectVelocity.Y * i);
+                                //throw new Exception((obj.boundingBox.max.X + velocityX).ToString());
+                                if (!IsLocationBlocked(obj, new Point(obj.boundingBox.max.X + velocityX, obj.boundingBox.max.Y + velocityY), collidingObjects, out other)
+                               && !IsLocationBlocked(obj, new Point(obj.boundingBox.min.X + velocityX, obj.boundingBox.min.Y + velocityY), collidingObjects, out other)
+                               && !IsLocationBlocked(obj, new Point(obj.boundingBox.min.X + velocityX, obj.boundingBox.max.Y + velocityY), collidingObjects, out other)
+                               && !IsLocationBlocked(obj, new Point(obj.boundingBox.max.X + velocityX, obj.boundingBox.min.Y + velocityY), collidingObjects, out other)
+                                )
+                                { ///If not colliding move up
+                                    newLocX = velocityX;
+                                    newLocY = velocityY;
+                                }
+                                else
+                                { //Colliding, invoke collision, dont move
+                                    obj.Collision(other);
+                                    break; //Break loop if theres and obstacle in the way of objects path depending on velocity
+                                }
+                            }
+                        }
+                        if (other == null) //If no collision then move up
+                        {
+                            obj.gameObjectLocation.X = newLocX;
+                            obj.gameObjectLocation.Y = newLocY;
+                        }
                     }
                 }
             }
@@ -166,9 +172,12 @@ namespace FormsGameEngine
 
         public void UpdateCurrentGamePanel()
         {
-            for(int i = 0; i < gameScenes[currentActiveScene].gameObjects.Count; i++)
+            if (gameScenes.Count > 0)
             {
-                gameScenes[currentActiveScene].gameObjects[i].UpdateObject(mainGameEnginePanel);
+                for (int i = 0; i < gameScenes[currentActiveScene].gameObjects.Count; i++)
+                {
+                    gameScenes[currentActiveScene].gameObjects[i].UpdateObject(mainGameEnginePanel);
+                }
             }
         }
         #endregion

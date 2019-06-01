@@ -40,10 +40,7 @@ namespace FormsGameEngineFormExample
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            MainGameEnginePanel mainGameEnginePanel = new MainGameEnginePanel(new Size(400, 200));
-            Controls.Add(mainGameEnginePanel);
-            mainGameEnginePanel.Location = new Point(0, 0);
-
+            MainGameEnginePanel mainGameEnginePanel = new MainGameEnginePanel(this, new Size(400, 200), new Point(0, 0));
             gameManager = new GameManager(this, mainGameEnginePanel);
 
             Box2dGameObject leftTrigger = new Box2dGameObject(new Point(-1, 0), new Size(1, 200), Color.Red);

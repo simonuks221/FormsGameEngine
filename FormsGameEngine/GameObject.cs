@@ -11,12 +11,23 @@ namespace FormsGameEngine
     public abstract class GameObject
     {
         public string objectTag;
+        public GameManager gameManager;
 
-        public GameObject()
+        public GameObject(GameManager _gameManager)
         {
-            
+            gameManager = _gameManager;
         }
         public abstract void UpdateObject(MainGameEnginePanel _mainGameEnginePanel);
+
+        public virtual void UpdateObjectOverride()
+        {
+
+        }
+
+        public virtual void Destroy()
+        {
+            gameManager.gameScenes[0].gameObjects.Remove(this);
+        }
     }
 
     public abstract class GameObjectControl : GameObject
@@ -24,9 +35,15 @@ namespace FormsGameEngine
         public Control gameObjectControl;
         public Point gameObjectLocation;
 
-        public GameObjectControl(Point _gameObjectLocation)
+        public GameObjectControl(GameManager _gameManager,Point _gameObjectLocation) : base(_gameManager)
         {
             gameObjectLocation = _gameObjectLocation;
+        }
+
+        public override void Destroy()
+        {
+            gameObjectControl.Dispose();
+            base.Destroy();
         }
     }
 }

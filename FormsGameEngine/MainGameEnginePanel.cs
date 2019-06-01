@@ -10,10 +10,15 @@ namespace FormsGameEngine
 {
     public class MainGameEnginePanel : Panel
     {
-        public MainGameEnginePanel(Size _panelSize)
+        Form thisForm;
+
+        public MainGameEnginePanel(Form _thisForm, Size _panelSize, Point _panelLocation)
         {
+            thisForm = _thisForm;
+            thisForm.Controls.Add(this);
             this.Size = _panelSize;
             this.BackColor = Color.LightGray;
+            this.Location = _panelLocation;
         }
     }
 }
