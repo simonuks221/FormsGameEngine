@@ -219,11 +219,25 @@ namespace FormsGameEngineFormExample
 
                 if (ballObject.objectVelocity.X != 0)
                 {
-                    ballObject.objectVelocity.X = ballSpeed;
+                    if(ballObject.objectVelocity.X > 0)
+                    {
+                        ballObject.objectVelocity.X = ballSpeed;
+                    }
+                    else
+                    {
+                        ballObject.objectVelocity.X = -ballSpeed;
+                    }
                 }
                 if (ballObject.objectVelocity.Y != 0)
                 {
-                    ballObject.objectVelocity.Y = ballSpeed;
+                    if(ballObject.objectVelocity.Y > 0)
+                    {
+                        ballObject.objectVelocity.Y = ballSpeed;
+                    }
+                    else
+                    {
+                        ballObject.objectVelocity.Y = -ballSpeed;
+                    }
                 }
             }
         }

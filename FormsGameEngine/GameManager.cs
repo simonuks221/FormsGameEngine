@@ -28,6 +28,7 @@ namespace FormsGameEngine
 
             form.KeyDown += Form_KeyDown;
             form.KeyUp += Form_KeyUp;
+            form.Click += Form_Click;
             foreach(Control c in form.Controls)
             {
                 c.KeyDown += Form_KeyDown;
@@ -190,6 +191,11 @@ namespace FormsGameEngine
             keysDown.Remove(e.KeyCode);
         }
         #endregion
+
+        private void Form_Click(object sender, EventArgs e) //Set focus to null if form is clicked
+        {
+            form.ActiveControl = null;
+        }
 
         public void AddGameObjectToScene(GameObject _gameObject, int _sceneIndex)
         {
