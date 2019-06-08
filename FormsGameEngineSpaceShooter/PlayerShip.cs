@@ -16,8 +16,9 @@ namespace FormsGameEngineSpaceShooter
 
         int playerSpeed = 2;
 
-        public PlayerShip(GameManager _gameManager, Point _playerLocation) : base(_gameManager,_playerLocation, new Size(20, 20), Color.Green)
+        public PlayerShip(GameManager _gameManager, Point _playerLocation) : base(_gameManager,_playerLocation, new Size(20, 20))
         {
+            this.cubeColor = Color.Green;
             this.colliding = true;
             this.objectTag = "player";
             this.ignoreCollisionTags = new List<string>() {"enemy"};

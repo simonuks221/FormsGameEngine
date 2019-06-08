@@ -42,24 +42,24 @@ namespace FormsGameEngineSpaceShooter
 
             gameManager.Tick += GameManager_Tick;
 
-            scoreBox = new Box2dGameObject(gameManager, new Point(0, 400), new Size(200, 1), Color.Red);
+            scoreBox = new Box2dGameObject(gameManager, new Point(0, 400), new Size(200, 1));
             scoreBox.colliding = true;
             scoreBox.OnCollision += ScoreBox_OnCollision;
             gameManager.AddGameObjectToScene(scoreBox, 0);
 
-            Box2dGameObject topBlock = new Box2dGameObject(gameManager, new Point(0, -1), new Size(200, 1), Color.Red);
+            Box2dGameObject topBlock = new Box2dGameObject(gameManager, new Point(0, -1), new Size(200, 1));
             topBlock.colliding = true;
             gameManager.AddGameObjectToScene(topBlock, 0);
 
-            Box2dGameObject bottomBlock = new Box2dGameObject(gameManager, new Point(0, 401), new Size(200, 1), Color.Red);
+            Box2dGameObject bottomBlock = new Box2dGameObject(gameManager, new Point(0, 401), new Size(200, 1));
             bottomBlock.colliding = true;
             gameManager.AddGameObjectToScene(bottomBlock, 0);
 
-            Box2dGameObject rightBlock = new Box2dGameObject(gameManager, new Point(201, 0), new Size(1, 400), Color.Red);
+            Box2dGameObject rightBlock = new Box2dGameObject(gameManager, new Point(201, 0), new Size(1, 400));
             rightBlock.colliding = true;
             gameManager.AddGameObjectToScene(rightBlock, 0);
 
-            Box2dGameObject leftBlock = new Box2dGameObject(gameManager, new Point(-1, 0), new Size(1, 400), Color.Red);
+            Box2dGameObject leftBlock = new Box2dGameObject(gameManager, new Point(-1, 0), new Size(1, 400));
             leftBlock.colliding = true;
             gameManager.AddGameObjectToScene(leftBlock, 0);
 

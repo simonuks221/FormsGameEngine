@@ -13,8 +13,9 @@ namespace FormsGameEngineSpaceShooter
     {
         float damage = 10;
 
-        public PlayerProjectile(GameManager _gameManager, Point _projectileLocation) : base(_gameManager, _projectileLocation, new Size(5, 5), Color.Yellow)
+        public PlayerProjectile(GameManager _gameManager, Point _projectileLocation) : base(_gameManager, _projectileLocation, new Size(5, 5))
         {
+            this.cubeColor = Color.Yellow;
             this.objectVelocity = new Point(0, -3);
             OnCollision += PlayerProjectile_OnCollision;
             this.Destroy(600);

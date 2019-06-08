@@ -14,9 +14,9 @@ namespace FormsGameEngineFormExample
     public partial class Form1 : Form
     {
         GameManager gameManager;
-        Box2dGameObject leftHadle;
+        Box2dGameObject leftHandle;
         Box2dGameObject rightHandle;
-        GameObject2D ballObject;
+        Box2dGameObject ballObject;
         TextGameObject rightScoreText;
         TextGameObject leftScoreText;
         TextGameObject victoryText;
@@ -43,28 +43,31 @@ namespace FormsGameEngineFormExample
             MainGameEnginePanel mainGameEnginePanel = new MainGameEnginePanel(this, new Size(400, 200), new Point(0, 0));
             gameManager = new GameManager(this, mainGameEnginePanel);
 
-            Box2dGameObject leftTrigger = new Box2dGameObject(new Point(-1, 0), new Size(1, 200), Color.Red);
+            Box2dGameObject leftTrigger = new Box2dGameObject(gameManager, new Point(-1, 0), new Size(1, 200));
             leftTrigger.objectTag = "leftTrigger";
             leftTrigger.colliding = true;
-            Box2dGameObject rightTrigger = new Box2dGameObject(new Point(400, 0), new Size(1, 200), Color.Red);
+            Box2dGameObject rightTrigger = new Box2dGameObject(gameManager, new Point(400, 0), new Size(1, 200));
             rightTrigger.objectTag = "rightTrigger";
             rightTrigger.colliding = true;
 
-            Box2dGameObject topSide = new Box2dGameObject(new Point(0, -1), new Size(400, 1), Color.Red);
+            Box2dGameObject topSide = new Box2dGameObject(gameManager, new Point(0, -1), new Size(400, 1));
             topSide.objectTag = "side";
             topSide.colliding = true;
-            Box2dGameObject bottomSide = new Box2dGameObject(new Point(0, 200), new Size(400, 1), Color.Red);
+            Box2dGameObject bottomSide = new Box2dGameObject(gameManager, new Point(0, 200), new Size(400, 1));
             bottomSide.objectTag = "side";
             bottomSide.colliding = true;
 
-            leftHadle = new Box2dGameObject(new Point(25, 100), new Size(10, 50), Color.Green);
-            leftHadle.colliding = true;
-            leftHadle.objectTag = "handle";
-            rightHandle = new Box2dGameObject(new Point(375, 100), new Size(10, 50), Color.Green);
+            leftHandle = new Box2dGameObject(gameManager, new Point(25, 100), new Size(10, 50));
+            leftHandle.cubeColor = Color.Green;
+            leftHandle.colliding = true;
+            leftHandle.objectTag = "handle";
+            rightHandle = new Box2dGameObject(gameManager, new Point(375, 100), new Size(10, 50));
+            rightHandle.cubeColor = Color.Green;
             rightHandle.colliding = true;
             rightHandle.objectTag = "handle";
 
-            ballObject = new Box2dGameObject(new Point(200, 100), new Size(10, 10), Color.Black);
+            ballObject = new Box2dGameObject(gameManager, new Point(200, 100), new Size(10, 10));
+            ballObject.cubeColor = Color.Black;
             Random r = new Random();
             ballVelocities = new List<Point>() { new Point(ballSpeed, ballSpeed), new Point(-ballSpeed, -ballSpeed), new Point(-ballSpeed, ballSpeed), new Point(ballSpeed, -ballSpeed) };
             ballObject.objectVelocity = ballVelocities[r.Next(0, ballVelocities.Count())];
@@ -72,19 +75,19 @@ namespace FormsGameEngineFormExample
             ballObject.colliding = true;
             ballObject.OnCollision += BallCollision;
 
-            rightScoreText = new TextGameObject(new Point(350, 0));
+            rightScoreText = new TextGameObject(gameManager, new Point(350, 0));
             rightScoreText.text = rightScore.ToString();
-            leftScoreText = new TextGameObject(new Point(20, 0));
+            leftScoreText = new TextGameObject(gameManager, new Point(20, 0));
             leftScoreText.text = leftScore.ToString();
 
-            gameTimeText = new TextGameObject(new Point(200, 0));
+            gameTimeText = new TextGameObject(gameManager, new Point(200, 0));
             gameTimeText.text = "0";
 
-            List<GameObject> scene1GameObjects = new List<GameObject>() {leftHadle, rightHandle, leftScoreText, rightScoreText, ballObject, topSide, bottomSide, leftTrigger, rightTrigger, gameTimeText};
+            List<GameObject> scene1GameObjects = new List<GameObject>() {leftHandle, rightHandle, leftScoreText, rightScoreText, ballObject, topSide, bottomSide, leftTrigger, rightTrigger, gameTimeText};
             GameScene gameScene = new GameScene(scene1GameObjects);
             gameManager.AddScene(gameScene);
 
-            victoryText = new TextGameObject(new Point(200, 100));
+            victoryText = new TextGameObject(gameManager, new Point(200, 100));
             GameScene victoryScene = new GameScene(new List<GameObject>() { victoryText});
             gameManager.AddScene(victoryScene);
 
@@ -107,17 +110,17 @@ namespace FormsGameEngineFormExample
 
         void SetupPlayerMovement() //Both handle movement
         {
-            if (gameManager.keysDown.Contains(Keys.W) && leftHadle.gameObjectLocation.Y + leftHadle.boundingBox.min.Y > 0)
+            if (gameManager.keysDown.Contains(Keys.W) && leftHandle.gameObjectLocation.Y + leftHandle.boundingBox.min.Y > 0)
             {
-                leftHadle.objectVelocity.Y = -handleSpeed;
+                leftHandle.objectVelocity.Y = -handleSpeed;
             }
-            else if (gameManager.keysDown.Contains(Keys.S) && leftHadle.gameObjectLocation.Y + leftHadle.boundingBox.max.Y < gameManager.mainGameEnginePanel.Size.Height)
+            else if (gameManager.keysDown.Contains(Keys.S) && leftHandle.gameObjectLocation.Y + leftHandle.boundingBox.max.Y < gameManager.mainGameEnginePanel.Size.Height)
             {
-                leftHadle.objectVelocity.Y = handleSpeed;
+                leftHandle.objectVelocity.Y = handleSpeed;
             }
             else
             {
-                leftHadle.objectVelocity.Y = 0;
+                leftHandle.objectVelocity.Y = 0;
             }
 
             if (!aiOponent)

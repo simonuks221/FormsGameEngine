@@ -12,11 +12,11 @@ namespace FormsGameEngine
     {
         public Size cubeSize;
         public Color cubeColor;
+        public Image cubeImage;
 
-        public Box2dGameObject(GameManager _gameManager ,Point _cubeLocation, Size _cubeSize, Color _cubeColor) : base(_gameManager,_cubeLocation)
+        public Box2dGameObject(GameManager _gameManager ,Point _cubeLocation, Size _cubeSize) : base(_gameManager,_cubeLocation)
         {
             cubeSize = _cubeSize;
-            cubeColor = _cubeColor;
 
             Point min = new Point(0, 0);
             Point max = new Point(cubeSize.Width, cubeSize.Height);
@@ -30,7 +30,14 @@ namespace FormsGameEngine
             {
                 panel = new Panel();
                 panel.Size = cubeSize;
-                panel.BackColor = cubeColor;
+                if (cubeColor != null)
+                {
+                    panel.BackColor = cubeColor;
+                }
+                if (cubeImage != null)
+                {
+                    panel.BackgroundImage = cubeImage;
+                }
                 gameObjectControl = panel;
                 _mainGameEnginePanel.Controls.Add(gameObjectControl);
             }
