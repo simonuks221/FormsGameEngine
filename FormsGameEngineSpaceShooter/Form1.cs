@@ -15,6 +15,7 @@ namespace FormsGameEngineSpaceShooter
     {
         GameManager gameManager;
         MainGameEnginePanel mainGamePanel;
+        Box2dGameObject scoreBox;
 
         float spawnFrequency = 2f;
         float lastSpawnTime = -100;
@@ -37,6 +38,16 @@ namespace FormsGameEngineSpaceShooter
             gameManager.AddScene(gameScene);
 
             gameManager.Tick += GameManager_Tick;
+
+            scoreBox = new Box2dGameObject(gameManager, new Point(0, 400), new Size(200, 1), Color.Red);
+            scoreBox.solid = true;
+            scoreBox.OnCollision += ScoreBox_OnCollision;
+            gameManager.AddGameObjectToScene(scoreBox, 0);
+        }
+
+        private void ScoreBox_OnCollision(GameObject2D _sender, GameObject2D _other)
+        {
+            throw new NotImplementedException();
         }
 
         private void GameManager_Tick()

@@ -136,6 +136,7 @@ namespace FormsGameEngine
                                 else
                                 { //Colliding, invoke collision, dont move
                                     obj.Collision(other);
+                                    other.Collision(obj);
                                     break; //Break loop if theres and obstacle in the way of objects path depending on velocity
                                 }
                             }
