@@ -17,6 +17,7 @@ namespace FormsGameEngineSpaceShooter
         {
             this.objectVelocity = new Point(0, -3);
             OnCollision += PlayerProjectile_OnCollision;
+            this.Destroy(600);
         }
 
         private void PlayerProjectile_OnCollision(GameObject2D _sender, GameObject2D _other)

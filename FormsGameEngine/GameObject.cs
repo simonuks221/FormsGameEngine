@@ -24,9 +24,9 @@ namespace FormsGameEngine
 
         }
 
-        public virtual void Destroy()
+        public virtual void Destroy(int _delay = 0)
         {
-            gameManager.gameScenes[0].gameObjects.Remove(this);
+            gameManager.Delayed(_delay, () => gameManager.gameScenes[0].gameObjects.Remove(this));
         }
     }
 
@@ -40,10 +40,18 @@ namespace FormsGameEngine
             gameObjectLocation = _gameObjectLocation;
         }
 
-        public override void Destroy()
+        public override void Destroy(int _delay = 0)
         {
-            gameObjectControl.Dispose();
-            base.Destroy();
+            gameManager.Delayed(_delay, () => DestroyThis());
+        }
+
+        private void DestroyThis()
+        {
+            if (gameObjectControl != null)
+            {
+                gameObjectControl.Dispose();
+            }
+            gameManager.gameScenes[0].gameObjects.Remove(this);
         }
     }
 }

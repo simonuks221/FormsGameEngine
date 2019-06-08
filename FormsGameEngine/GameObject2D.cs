@@ -23,8 +23,9 @@ namespace FormsGameEngine
         public delegate void CollisionHandler(GameObject2D _sender, GameObject2D _other);
         public event CollisionHandler OnCollision;
 
-        public bool solid = false;
+        public bool colliding = false;
         public BoundingBox boundingBox;
+        public List<String> ignoreCollisionTags = new List<string>();
         public Point objectVelocity = new Point(0, 0);
 
         public GameObject2D(GameManager _gameManager, Point _gameObject2DLocation) : base(_gameManager, _gameObject2DLocation)

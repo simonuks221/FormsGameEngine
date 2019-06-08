@@ -14,7 +14,8 @@ namespace FormsGameEngineSpaceShooter
 
         public EnemyShip(GameManager _gameManager, Point _enemyLocation, Size _enemySize) : base(_gameManager, _enemyLocation, _enemySize, Color.Red)
         {
-            this.solid = true;
+            this.colliding = true;
+            this.objectTag = "enemy";
         }
 
         public void DoDamage(float amountOfDamage)

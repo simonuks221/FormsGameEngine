@@ -18,7 +18,9 @@ namespace FormsGameEngineSpaceShooter
 
         public PlayerShip(GameManager _gameManager, Point _playerLocation) : base(_gameManager,_playerLocation, new Size(20, 20), Color.Green)
         {
-
+            this.colliding = true;
+            this.objectTag = "player";
+            this.ignoreCollisionTags = new List<string>() {"enemy"};
         }
 
         public override void UpdateObjectOverride()
@@ -55,7 +57,7 @@ namespace FormsGameEngineSpaceShooter
                 if (gameManager.keysDown.Contains(Keys.Space))
                 {
                     PlayerProjectile newProjectile = new PlayerProjectile(gameManager, new Point(this.gameObjectLocation.X + 7, this.gameObjectLocation.Y - 10));
-                    newProjectile.solid = true;
+                    newProjectile.colliding = true;
                     gameManager.AddGameObjectToScene(newProjectile, gameManager.currentActiveScene);
                     lastFire = gameManager.gameTime;
                 }

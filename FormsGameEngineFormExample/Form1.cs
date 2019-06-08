@@ -45,23 +45,23 @@ namespace FormsGameEngineFormExample
 
             Box2dGameObject leftTrigger = new Box2dGameObject(new Point(-1, 0), new Size(1, 200), Color.Red);
             leftTrigger.objectTag = "leftTrigger";
-            leftTrigger.solid = true;
+            leftTrigger.colliding = true;
             Box2dGameObject rightTrigger = new Box2dGameObject(new Point(400, 0), new Size(1, 200), Color.Red);
             rightTrigger.objectTag = "rightTrigger";
-            rightTrigger.solid = true;
+            rightTrigger.colliding = true;
 
             Box2dGameObject topSide = new Box2dGameObject(new Point(0, -1), new Size(400, 1), Color.Red);
             topSide.objectTag = "side";
-            topSide.solid = true;
+            topSide.colliding = true;
             Box2dGameObject bottomSide = new Box2dGameObject(new Point(0, 200), new Size(400, 1), Color.Red);
             bottomSide.objectTag = "side";
-            bottomSide.solid = true;
+            bottomSide.colliding = true;
 
             leftHadle = new Box2dGameObject(new Point(25, 100), new Size(10, 50), Color.Green);
-            leftHadle.solid = true;
+            leftHadle.colliding = true;
             leftHadle.objectTag = "handle";
             rightHandle = new Box2dGameObject(new Point(375, 100), new Size(10, 50), Color.Green);
-            rightHandle.solid = true;
+            rightHandle.colliding = true;
             rightHandle.objectTag = "handle";
 
             ballObject = new Box2dGameObject(new Point(200, 100), new Size(10, 10), Color.Black);
@@ -69,7 +69,7 @@ namespace FormsGameEngineFormExample
             ballVelocities = new List<Point>() { new Point(ballSpeed, ballSpeed), new Point(-ballSpeed, -ballSpeed), new Point(-ballSpeed, ballSpeed), new Point(ballSpeed, -ballSpeed) };
             ballObject.objectVelocity = ballVelocities[r.Next(0, ballVelocities.Count())];
             ballObject.objectTag = "ball";
-            ballObject.solid = true;
+            ballObject.colliding = true;
             ballObject.OnCollision += BallCollision;
 
             rightScoreText = new TextGameObject(new Point(350, 0));
