@@ -42,7 +42,7 @@ namespace FormsGameEngine
                 transparentLabel = new TransparentLabel();
                 transparentLabel.Location = gameObjectLocation;
                 transparentLabel.Text = textGameObjectText;
-                transparentLabel.Size = new Size(20, 13);
+                transparentLabel.Size = new Size(7, 11); //1 letter requires size of (7, 11)
                 gameObjectControl = transparentLabel;
                 _mainGameEnginePanel.Controls.Add(gameObjectControl);
             }
@@ -50,7 +50,6 @@ namespace FormsGameEngine
             {
                 transparentLabel = (TransparentLabel)gameObjectControl;
             }
-            
         }
     }
 }

@@ -46,6 +46,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BaseWidget.cs" />
     <Compile Include="Box2dGameObject.cs" />
     <Compile Include="GameManager.cs" />
     <Compile Include="GameObject.cs" />
@@ -59,6 +60,7 @@
     <Compile Include="TransparentLabel.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="UiManager.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

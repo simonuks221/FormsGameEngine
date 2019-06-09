@@ -95,6 +95,7 @@ namespace FormsGameEngine
                         break;
                 }
                 graphics.DrawString(Text, Font, brush, left, top);
+                this.Size = size.ToSize(); //1 letter requires rought size of (7, 11)
                 BringToFront();
             }
         }

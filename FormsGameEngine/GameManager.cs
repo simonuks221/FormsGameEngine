@@ -16,7 +16,9 @@ namespace FormsGameEngine
         public Form form;
         public MainGameEnginePanel mainGameEnginePanel;
         public List<GameScene> gameScenes;
+        public List<UiManager> gameUis;
         public int currentActiveScene = 0;
+        public int currentActiveUi = 0;
 
         public List<Keys> keysDown = new List<Keys>();
 
@@ -40,6 +42,7 @@ namespace FormsGameEngine
 
             mainGameEnginePanel = _mainGameEnginePanel;
             gameScenes = new List<GameScene>();
+            gameUis = new List<UiManager>();
 
             form.Select();
             form.Focus();
@@ -270,6 +273,24 @@ namespace FormsGameEngine
             }
 
             currentActiveScene = _newSceneIndex;
+        }
+
+        public void ChangeUi(int _newUiIndex) //Not finished
+        {
+            currentActiveUi = _newUiIndex;
+        }
+
+        public void AddUi(UiManager _newUi)
+        {
+            gameUis.Add(_newUi);
+        }
+
+        public void AddWidgetToUi(BaseWidget _widgetToAdd, int _uiIndex)
+        {
+            if(_widgetToAdd != null && _uiIndex >= 0 && _uiIndex < gameUis.Count)
+            {
+                gameUis[_uiIndex].AddWidget(_widgetToAdd);
+            }
         }
     }
 }
