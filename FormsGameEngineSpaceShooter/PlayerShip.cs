@@ -22,6 +22,7 @@ namespace FormsGameEngineSpaceShooter
             this.colliding = true;
             this.objectTag = "player";
             this.ignoreCollisionTags = new List<string>() {"enemy"};
+            
         }
 
         public override void UpdateObjectOverride()

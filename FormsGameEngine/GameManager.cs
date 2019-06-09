@@ -44,7 +44,6 @@ namespace FormsGameEngine
             form.Select();
             form.Focus();
             form.Focus();
-            Console.Out.WriteLine(form.Focused);
 
             GameCycle();
         }

@@ -10,28 +10,47 @@ namespace FormsGameEngine
 {
     public class TextGameObject : GameObjectControl
     {
-        public string text;
+        string textGameObjectText;
+
+        public string text
+        {
+            get
+            {
+                return textGameObjectText;
+            }
+            set
+            {
+                textGameObjectText = value;
+                TransparentLabel label = this.gameObjectControl as TransparentLabel;
+                if(label != null)
+                {
+                    label.Text = textGameObjectText;
+                }
+            }
+        }
 
         public TextGameObject(GameManager _gameManager, Point _textLocation) : base(_gameManager,_textLocation)
         {
-            text = "Null";
+            textGameObjectText = "Null";
         }
 
         public override void UpdateObject(MainGameEnginePanel _mainGameEnginePanel)
         {
-            Label label;
+            TransparentLabel transparentLabel;
             if (gameObjectControl == null)
             {
-                label = new Label();
-                gameObjectControl = label;
+                transparentLabel = new TransparentLabel();
+                transparentLabel.Location = gameObjectLocation;
+                transparentLabel.Text = textGameObjectText;
+                transparentLabel.Size = new Size(20, 13);
+                gameObjectControl = transparentLabel;
                 _mainGameEnginePanel.Controls.Add(gameObjectControl);
             }
             else
             {
-                label = (Label)gameObjectControl;
+                transparentLabel = (TransparentLabel)gameObjectControl;
             }
-            gameObjectControl.Location = gameObjectLocation;
-            label.Text = text;
+            
         }
     }
 }

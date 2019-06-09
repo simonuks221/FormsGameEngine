@@ -97,12 +97,6 @@ namespace FormsGameEngineSpaceShooter
                 SpawnNewEnemyShip();
                 lastSpawnTime = gameManager.gameTime;
             }
-
-            if (gameManager.keysDown.Contains(Keys.E))
-            {
-                PlayerShip ship = new PlayerShip(gameManager, gameManager.mouseLocation);
-                gameManager.AddGameObjectToScene(ship, 0);
-            }
         }
 
         void SpawnNewEnemyShip()
