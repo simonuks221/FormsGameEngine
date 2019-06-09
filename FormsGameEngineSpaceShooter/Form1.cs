@@ -49,6 +49,7 @@ namespace FormsGameEngineSpaceShooter
 
             Box2dGameObject topBlock = new Box2dGameObject(gameManager, new Point(0, -1), new Size(200, 1));
             topBlock.colliding = true;
+            topBlock.objectTag = "wall";
             gameManager.AddGameObjectToScene(topBlock, 0);
 
             Box2dGameObject bottomBlock = new Box2dGameObject(gameManager, new Point(0, 401), new Size(200, 1));

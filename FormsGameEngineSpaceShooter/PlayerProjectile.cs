@@ -18,7 +18,7 @@ namespace FormsGameEngineSpaceShooter
             this.cubeColor = Color.Yellow;
             this.objectVelocity = new Point(0, -3);
             OnCollision += PlayerProjectile_OnCollision;
-            this.Destroy(600);
+            this.Destroy(6000);
         }
 
         private void PlayerProjectile_OnCollision(GameObject2D _sender, GameObject2D _other)
@@ -27,6 +27,10 @@ namespace FormsGameEngineSpaceShooter
             if(enemyShip != null)
             {
                 enemyShip.DoDamage(damage);
+                this.Destroy();
+            }
+            else if (_other.objectTag == "wall")
+            {
                 this.Destroy();
             }
         }
