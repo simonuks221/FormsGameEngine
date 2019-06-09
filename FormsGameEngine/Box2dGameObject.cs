@@ -49,6 +49,7 @@ namespace FormsGameEngine
             gameObjectControl.BringToFront();
 
             UpdateObjectOverride();
+            base.UpdateObject(_mainGameEnginePanel);
         }
     }
 }

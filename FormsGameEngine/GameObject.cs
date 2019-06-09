@@ -40,6 +40,11 @@ namespace FormsGameEngine
             gameObjectLocation = _gameObjectLocation;
         }
 
+        public override void UpdateObject(MainGameEnginePanel _mainGameEnginePanel)
+        {
+            this.gameObjectControl.MouseMove += gameManager.MouseMoveOnGamePanel;
+        }
+
         public override void Destroy(int _delay = 0)
         {
             gameManager.Delayed(_delay, () => DestroyThis());

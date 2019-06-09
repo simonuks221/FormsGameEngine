@@ -22,6 +22,8 @@ namespace FormsGameEngine
 
         public float gameTime = 0; //Game time in seconds
 
+        public Point mouseLocation = new Point(0, 0);
+
         public GameManager(Form _form, MainGameEnginePanel _mainGameEnginePanel)
         {
             form = _form;
@@ -33,6 +35,7 @@ namespace FormsGameEngine
             {
                 c.KeyDown += Form_KeyDown;
                 c.KeyUp += Form_KeyUp;
+                c.MouseMove += MouseMoveOnGamePanel;
             }
 
             mainGameEnginePanel = _mainGameEnginePanel;
@@ -222,13 +225,29 @@ namespace FormsGameEngine
             form.ActiveControl = null;
         }
 
+        public void MouseMoveOnGamePanel(object sender, MouseEventArgs e)
+        {
+            Control senderControl = sender as Control;
+            if (senderControl != null)
+            {
+                if(senderControl == mainGameEnginePanel)
+                {
+                    mouseLocation = e.Location;
+                }
+                else
+                {
+                    Point newMouseLocation = new Point(senderControl.Location.X + e.Location.X, senderControl.Location.Y + e.Location.Y);
+                    mouseLocation = newMouseLocation;
+                }
+            }
+        }
+
         public void AddGameObjectToScene(GameObject _gameObject, int _sceneIndex)
         {
             if (_gameObject != null && _sceneIndex >= 0 && _sceneIndex < gameScenes.Count)
             {
                 gameScenes[_sceneIndex].gameObjects.Add(_gameObject);
             }
-
         }
 
         public void AddScene(GameScene _gameScene)
