@@ -43,6 +43,7 @@ namespace FormsGameEngine
         public override void UpdateObject(MainGameEnginePanel _mainGameEnginePanel)
         {
             this.gameObjectControl.MouseMove += gameManager.MouseMoveOnGamePanel;
+            //this.gameObjectControl.Location = PointHelper.Add(this.gameObjectControl.Location, gameManager.cameraLocation);
         }
 
         public override void Destroy(int _delay = 0)

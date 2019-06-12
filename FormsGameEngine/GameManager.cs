@@ -58,18 +58,18 @@ namespace FormsGameEngine
         void GameCycle()
         {
             Delayed(1, () => UpdateScreen());
-            gameTime += 1f / 60f; //Adds all game time
         }
 
         void UpdateScreen()
         {
+            gameTime += 1f / 60f; //Adds to all game time
+
             ApplyCollisionWithVelocity();
             if(Tick != null)
             {
                 Tick.Invoke();
             }
             UpdateCurrentGamePanel();
-
             GameCycle(); //Continue the cycle
         }
 
