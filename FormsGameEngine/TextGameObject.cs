@@ -10,8 +10,27 @@ namespace FormsGameEngine
 {
     public class TextGameObject : BaseWidget
     {
-        public static List<WidgetControlInfo> widgetControlsInfo = new List<WidgetControlInfo>() { new WidgetControlInfo(typeof(TransparentLabel), new Size(7, 11), new Point(0, 0))};
+        List<WidgetControlInfo> newWidgetControlsInfo = new List<WidgetControlInfo>() { new WidgetControlInfo(typeof(TransparentLabel), new Size(7, 11), new Point(0, 0))};
 
+        protected override void SetupWidgetControlsInfo()
+        {
+            widgetControlsInfo = newWidgetControlsInfo;
+        }
+
+        public override void UpdateWidget(MainGameEnginePanel _uiPanel)
+        {
+            base.UpdateWidget(_uiPanel);
+
+            TransparentLabel label = this.widgetControls[0] as TransparentLabel;
+            if(label != null)
+            {
+                if(label.Text != textGameObjectText)
+                {
+                    label.Text = textGameObjectText;
+                }
+                
+            }
+        }
 
         string textGameObjectText;
 
@@ -24,11 +43,11 @@ namespace FormsGameEngine
             set
             {
                 textGameObjectText = value;
-                TransparentLabel label = this.widgetControls[0] as TransparentLabel;
-                if(label != null)
-                {
-                    label.Text = textGameObjectText;
-                }
+                //TransparentLabel label = this.widgetControls[0] as TransparentLabel;
+                //if(label != null)
+                //{
+                //    label.Text = textGameObjectText;
+                //}
             }
         }
 

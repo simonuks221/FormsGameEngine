@@ -28,13 +28,18 @@ namespace FormsGameEngine
         GameManager gameManager;
 
         public Point widgetLocationOnScreen;
-        public Control widgetControl;
 
-        static List<WidgetControlInfo> widgetControlsInfo;
+        protected List<WidgetControlInfo> widgetControlsInfo;
         public List<Control> widgetControls = new List<Control>();
+
+        protected virtual void SetupWidgetControlsInfo()
+        {
+            widgetControlsInfo = null;
+        }
 
         public BaseWidget(GameManager _gameManager, Point _WidgetLocation)
         {
+            SetupWidgetControlsInfo();
             gameManager = _gameManager;
             widgetLocationOnScreen = _WidgetLocation;
         }
@@ -56,9 +61,7 @@ namespace FormsGameEngine
                             widgetControls.RemoveAt(i);
                         }
                     }
-
                     //Widget control doesnt exist, make a new one and add it to panel
-
                     Control newControl = (Control)Activator.CreateInstance(widgetControlsInfo[i].controlType);
                     newControl.Location = new Point(widgetLocationOnScreen.X + widgetControlsInfo[i].controlReliativeLocation.X, widgetLocationOnScreen.Y + widgetControlsInfo[i].controlReliativeLocation.Y);
                     newControl.Size = widgetControlsInfo[i].controlSize;
@@ -70,6 +73,7 @@ namespace FormsGameEngine
             }
             else
             {
+                Console.Out.WriteLine(widgetControlsInfo == null);
                 throw new Exception("Widget controls not set, dont make empty widgets.");
             }
         }

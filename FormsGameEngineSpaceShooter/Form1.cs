@@ -69,7 +69,7 @@ namespace FormsGameEngineSpaceShooter
 
             playerLifeText = new TextGameObject(gameManager, new Point(0, 0));
             gameManager.AddWidgetToUi(playerLifeText, 0);
-            //playerLifeText.text = playerLife.ToString();
+            playerLifeText.text = playerLife.ToString();
 
             //GAME OVER SCENE AND UI
             GameScene gameOverScene = new GameScene();
@@ -79,7 +79,7 @@ namespace FormsGameEngineSpaceShooter
             gameManager.AddUi(gameOverUi);
 
             TextGameObject gameOverText = new TextGameObject(gameManager, new Point(100, 200));
-            //gameOverText.text = "Game over";
+            gameOverText.text = "Game over";
             gameManager.AddWidgetToUi(gameOverText, 1);
         }
 

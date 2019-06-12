@@ -200,6 +200,14 @@ namespace FormsGameEngine
                     gameScenes[currentActiveScene].gameObjects[i].UpdateObject(mainGameEnginePanel);
                 }
             }
+
+            if(gameUis.Count > 0)
+            {
+                for(int i = 0; i < gameUis[currentActiveUi].widgets.Count; i++)
+                {
+                    gameUis[currentActiveUi].widgets[i].UpdateWidget(mainGameEnginePanel);
+                }
+            }
         }
         #endregion
 
@@ -277,6 +285,19 @@ namespace FormsGameEngine
 
         public void ChangeUi(int _newUiIndex) //Not finished
         {
+            foreach (BaseWidget w in gameUis[currentActiveUi].widgets) //Clear leftover Controls
+            {
+                for(int i = 0; i < w.widgetControls.Count; i++)
+                {
+                    w.widgetControls[i].Dispose();
+                }
+                w.widgetControls.Clear();
+            }
+            for (int i = 0; i < mainGameEnginePanel.Controls.Count; i++)
+            {
+                mainGameEnginePanel.Controls[i].Dispose();
+            }
+
             currentActiveUi = _newUiIndex;
         }
 
