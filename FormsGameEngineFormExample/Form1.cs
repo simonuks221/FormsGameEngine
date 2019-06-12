@@ -83,13 +83,21 @@ namespace FormsGameEngineFormExample
             gameTimeText = new TextGameObject(gameManager, new Point(200, 0));
             gameTimeText.text = "0";
 
-            List<GameObject> scene1GameObjects = new List<GameObject>() {leftHandle, rightHandle, leftScoreText, rightScoreText, ballObject, topSide, bottomSide, leftTrigger, rightTrigger, gameTimeText};
+            List<GameObject> scene1GameObjects = new List<GameObject>() {leftHandle, rightHandle, ballObject, topSide, bottomSide, leftTrigger, rightTrigger};
             GameScene gameScene = new GameScene(scene1GameObjects);
             gameManager.AddScene(gameScene);
 
+            UiManager gameUi = new UiManager();
+            gameUi.AddWidget(gameTimeText);
+            gameManager.AddUi(gameUi);
+
             victoryText = new TextGameObject(gameManager, new Point(200, 100));
-            GameScene victoryScene = new GameScene(new List<GameObject>() { victoryText});
+            GameScene victoryScene = new GameScene();
             gameManager.AddScene(victoryScene);
+
+            UiManager victoryUi = new UiManager();
+            victoryUi.AddWidget(victoryText);
+            gameManager.AddUi(victoryUi);
 
             VictoryScoreAmountTextBox.Text = victoryScoreAmount.ToString();
             BallSpeedTextBox.Text = ballSpeed.ToString();
@@ -167,6 +175,7 @@ namespace FormsGameEngineFormExample
                 if (leftScore >= victoryScoreAmount || rightScore >= victoryScoreAmount) //Winning conditions
                 {
                     gameManager.ChangeScene(1);
+                    gameManager.ChangeUi(1);
 
                     if(leftScore >= victoryScoreAmount) //Left won
                     {
@@ -181,9 +190,9 @@ namespace FormsGameEngineFormExample
                 else //No winners yet, continue the game
                 {
                     ballObject.gameObjectLocation = new Point(200, 100);
+
                     Random r = new Random();
                     ballObject.objectVelocity = ballVelocities[r.Next(0, ballVelocities.Count)];
-                    
                 }
             }
             else

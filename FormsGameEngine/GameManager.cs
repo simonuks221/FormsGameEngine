@@ -26,6 +26,8 @@ namespace FormsGameEngine
 
         public Point mouseLocation = new Point(0, 0);
 
+        public Point cameraLocation = new Point(0, 0);
+
         public GameManager(Form _form, MainGameEnginePanel _mainGameEnginePanel)
         {
             form = _form;
@@ -104,11 +106,19 @@ namespace FormsGameEngine
                     }
                 }
 
-
-                foreach (GameObject2D obj in collidingObjects) //Aplly velocity
+                foreach (GameObject2D obj in collidingObjects) //Apply velocity
                 {
                     if (obj.objectVelocity != new Point(0, 0))
                     {
+
+                        if(obj.objectTag == "ball")
+                        {
+                            if(obj.gameObjectLocation == new Point(200, 100))
+                            {
+                                Console.Out.WriteLine("bazaras seni");
+                            }
+                        }
+
                         GameObject2D other = null;
 
                         int newLocX = obj.gameObjectLocation.X + obj.objectVelocity.X;
