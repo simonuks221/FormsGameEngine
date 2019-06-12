@@ -8,8 +8,11 @@ using System.Windows.Forms;
 
 namespace FormsGameEngine
 {
-    public class TextGameObject : GameObjectControl
+    public class TextGameObject : BaseWidget
     {
+        public static List<WidgetControlInfo> widgetControlsInfo = new List<WidgetControlInfo>() { new WidgetControlInfo(typeof(TransparentLabel), new Size(7, 11), new Point(0, 0))};
+
+
         string textGameObjectText;
 
         public string text
@@ -21,7 +24,7 @@ namespace FormsGameEngine
             set
             {
                 textGameObjectText = value;
-                TransparentLabel label = this.gameObjectControl as TransparentLabel;
+                TransparentLabel label = this.widgetControls[0] as TransparentLabel;
                 if(label != null)
                 {
                     label.Text = textGameObjectText;
@@ -29,27 +32,9 @@ namespace FormsGameEngine
             }
         }
 
-        public TextGameObject(GameManager _gameManager, Point _textLocation) : base(_gameManager,_textLocation)
+        public TextGameObject(GameManager _gameManager, Point _textLocation) : base(_gameManager, _textLocation)
         {
-            textGameObjectText = "Null";
-        }
-
-        public override void UpdateObject(MainGameEnginePanel _mainGameEnginePanel)
-        {
-            TransparentLabel transparentLabel;
-            if (gameObjectControl == null)
-            {
-                transparentLabel = new TransparentLabel();
-                transparentLabel.Location = gameObjectLocation;
-                transparentLabel.Text = textGameObjectText;
-                transparentLabel.Size = new Size(7, 11); //1 letter requires size of (7, 11)
-                gameObjectControl = transparentLabel;
-                _mainGameEnginePanel.Controls.Add(gameObjectControl);
-            }
-            else
-            {
-                transparentLabel = (TransparentLabel)gameObjectControl;
-            }
+            //text = "Null";
         }
     }
 }

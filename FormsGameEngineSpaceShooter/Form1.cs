@@ -64,14 +64,23 @@ namespace FormsGameEngineSpaceShooter
             leftBlock.colliding = true;
             gameManager.AddGameObjectToScene(leftBlock, 0);
 
+            UiManager gameUi = new UiManager();
+            gameManager.AddUi(gameUi);
+
             playerLifeText = new TextGameObject(gameManager, new Point(0, 0));
-            gameManager.AddGameObjectToScene(playerLifeText, 0);
-            playerLifeText.text = playerLife.ToString();
+            gameManager.AddWidgetToUi(playerLifeText, 0);
+            //playerLifeText.text = playerLife.ToString();
+
+            //GAME OVER SCENE AND UI
+            GameScene gameOverScene = new GameScene();
+            gameManager.AddScene(gameOverScene);
+
+            UiManager gameOverUi = new UiManager();
+            gameManager.AddUi(gameOverUi);
 
             TextGameObject gameOverText = new TextGameObject(gameManager, new Point(100, 200));
-            gameOverText.text = "Game over";
-            GameScene gameOverScene = new GameScene(new List<GameObject>() { gameOverText});
-            gameManager.AddScene(gameOverScene);
+            //gameOverText.text = "Game over";
+            gameManager.AddWidgetToUi(gameOverText, 1);
         }
 
         private void ScoreBox_OnCollision(GameObject2D _sender, GameObject2D _other)
@@ -86,6 +95,7 @@ namespace FormsGameEngineSpaceShooter
                 if(playerLife <= 0)
                 {
                     gameManager.ChangeScene(1);
+                    gameManager.ChangeUi(1);
                 }
             }
         }
