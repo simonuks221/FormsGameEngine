@@ -45,7 +45,7 @@ namespace FormsGameEngine
             {
                 panel = (Panel)gameObjectControl;
             }
-            gameObjectControl.Location = gameObjectLocation;
+            this.gameObjectControl.Location = PointHelper.Subtract(this.gameObjectLocation, gameManager.cameraLocation);
             gameObjectControl.BringToFront();
 
             UpdateObjectOverride();

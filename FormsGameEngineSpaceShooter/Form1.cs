@@ -102,9 +102,6 @@ namespace FormsGameEngineSpaceShooter
 
         private void GameManager_Tick()
         {
-            gameManager.cameraLocation = playerShip.gameObjectLocation;
-
-
             if (gameManager.gameTime - lastSpawnTime >= spawnFrequency)
             {
                 SpawnNewEnemyShip();
