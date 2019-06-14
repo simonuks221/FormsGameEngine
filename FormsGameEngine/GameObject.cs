@@ -58,7 +58,5 @@ namespace FormsGameEngine
             }
             gameManager.gameScenes[0].gameObjects.Remove(this);
         }
-
-
     }
 }
