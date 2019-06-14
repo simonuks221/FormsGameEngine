@@ -11,7 +11,7 @@ namespace FormsGameEngine
     public class Box2dGameObject : GameObject2D
     {
         public Size cubeSize;
-        public Color cubeColor;
+        public Color boxColor;
         public Image cubeImage;
 
         public Box2dGameObject(GameManager _gameManager ,Point _cubeLocation, Size _cubeSize) : base(_gameManager,_cubeLocation)
@@ -30,9 +30,9 @@ namespace FormsGameEngine
             {
                 panel = new Panel();
                 panel.Size = cubeSize;
-                if (cubeColor != null)
+                if (boxColor != null)
                 {
-                    panel.BackColor = cubeColor;
+                    panel.BackColor = boxColor;
                 }
                 if (cubeImage != null)
                 {

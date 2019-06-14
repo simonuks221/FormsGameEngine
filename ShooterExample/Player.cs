@@ -13,9 +13,14 @@ namespace ShooterExample
     {
         int playerSpeed = 1;
 
+        float lastShootTime = -10000f;
+        float shootDelay = 0.3f;
+
+        int projectileMaxVelocity = 3;
+
         public Player(GameManager _gameManager, Point _location) : base(_gameManager, _location, new Size(7, 7))
         {
-            this.cubeColor = Color.Green;
+            this.boxColor = Color.Green;
             this.colliding = true;
         }
 
@@ -45,6 +50,34 @@ namespace ShooterExample
             else
             {
                 this.objectVelocity = new Point(0, this.objectVelocity.Y);
+            }
+
+            if (gameManager.keysDown.Contains(Keys.Space))
+            {
+                if (gameManager.gameTime - lastShootTime > shootDelay)
+                {
+                    Console.Out.WriteLine(gameManager.mouseLocation + " " + this.gameObjectLocation);
+
+                    Point locationDifference = PointHelper.Subtract( gameManager.mouseLocation, this.gameObjectLocation);
+                    Point projectileVelocity = new Point(0, 0);
+                    if (locationDifference.X > locationDifference.Y)
+                    {
+                        int yVelocity = locationDifference.Y * 100 / locationDifference.X;
+                        projectileVelocity = new Point(projectileMaxVelocity, yVelocity * projectileMaxVelocity / 100);
+                    }
+                    else //Y bigger
+                    {
+                        int xVelocity = locationDifference.X * 100 / locationDifference.Y;
+                        projectileVelocity = new Point(xVelocity * projectileMaxVelocity / 100, projectileMaxVelocity);
+                    }
+
+                    Console.Out.WriteLine(projectileVelocity);
+
+                    Projectile newProjectile = new Projectile(gameManager, this.gameObjectLocation, projectileVelocity);
+                    gameManager.AddGameObjectToScene(newProjectile, 0);
+
+                    lastShootTime = gameManager.gameTime;
+                }
             }
 
             base.UpdateObject(_mainGameEnginePanel);

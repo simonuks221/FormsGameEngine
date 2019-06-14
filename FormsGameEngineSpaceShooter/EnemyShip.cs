@@ -14,7 +14,7 @@ namespace FormsGameEngineSpaceShooter
 
         public EnemyShip(GameManager _gameManager, Point _enemyLocation, Size _enemySize) : base(_gameManager, _enemyLocation, _enemySize)
         {
-            this.cubeColor = Color.Red;
+            this.boxColor = Color.Red;
             this.colliding = true;
             this.objectTag = "enemy";
         }

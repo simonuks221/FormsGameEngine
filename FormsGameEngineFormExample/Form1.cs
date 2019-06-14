@@ -58,16 +58,16 @@ namespace FormsGameEngineFormExample
             bottomSide.colliding = true;
 
             leftHandle = new Box2dGameObject(gameManager, new Point(25, 100), new Size(10, 50));
-            leftHandle.cubeColor = Color.Green;
+            leftHandle.boxColor = Color.Green;
             leftHandle.colliding = true;
             leftHandle.objectTag = "handle";
             rightHandle = new Box2dGameObject(gameManager, new Point(375, 100), new Size(10, 50));
-            rightHandle.cubeColor = Color.Green;
+            rightHandle.boxColor = Color.Green;
             rightHandle.colliding = true;
             rightHandle.objectTag = "handle";
 
             ballObject = new Box2dGameObject(gameManager, new Point(200, 100), new Size(10, 10));
-            ballObject.cubeColor = Color.Black;
+            ballObject.boxColor = Color.Black;
             Random r = new Random();
             ballVelocities = new List<Point>() { new Point(ballSpeed, ballSpeed), new Point(-ballSpeed, -ballSpeed), new Point(-ballSpeed, ballSpeed), new Point(ballSpeed, -ballSpeed) };
             ballObject.objectVelocity = ballVelocities[r.Next(0, ballVelocities.Count())];

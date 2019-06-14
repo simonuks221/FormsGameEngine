@@ -12,7 +12,7 @@ namespace ShooterExample
     {
         public WallGameObject(GameManager _gameManager, Point _location) : base(_gameManager, _location, new Size(10, 10))
         {
-            this.cubeColor = Color.Black;
+            this.boxColor = Color.Black;
             this.colliding = true;
         }
     }
