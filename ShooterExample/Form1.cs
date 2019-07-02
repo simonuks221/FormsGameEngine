@@ -45,11 +45,13 @@ namespace ShooterExample
             gameManager.AddUi(gameUi1);
 
             gameManager.Tick += GameManager_Tick;
+
+            ConnectionStateLabel.Text = "Not connected";
         }
 
         private void GameManager_Tick()
         {
-            
+
         }
 
         private List<WallGameObject> CreateStartupWalls()
@@ -68,6 +70,11 @@ namespace ShooterExample
                 }
             }
             return walls;
+        }
+
+        private void ConnectButton_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

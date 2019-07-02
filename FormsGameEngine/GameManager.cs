@@ -323,5 +323,19 @@ namespace FormsGameEngine
                 gameUis[_uiIndex].AddWidget(_widgetToAdd);
             }
         }
+
+        #region Networking
+
+        public void TpcNetworkServer()
+        {
+            TpcGameServer server = new TpcGameServer();
+        }
+
+        public void TpcNetworkClient()
+        {
+            TpcPlayerClient client = new TpcPlayerClient();
+        }
+
+        #endregion
     }
 }
