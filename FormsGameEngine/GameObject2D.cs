@@ -26,7 +26,7 @@ namespace FormsGameEngine
         public bool colliding = false;
         public BoundingBox boundingBox;
         public List<String> ignoreCollisionTags = new List<string>();
-        public Point objectVelocity = new Point(0, 0);
+        public PointF objectVelocity = new PointF(0f, 0f);
 
         public GameObject2D(GameManager _gameManager, Point _gameObject2DLocation) : base(_gameManager, _gameObject2DLocation)
         {

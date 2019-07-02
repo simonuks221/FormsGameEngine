@@ -28,28 +28,28 @@ namespace ShooterExample
         {
             if (gameManager.keysDown.Contains(Keys.W))
             {
-                this.objectVelocity = new Point(this.objectVelocity.X, -playerSpeed);
+                this.objectVelocity = new PointF(this.objectVelocity.X, -playerSpeed);
             }
             else if (gameManager.keysDown.Contains(Keys.S))
             {
-                this.objectVelocity = new Point(this.objectVelocity.X, playerSpeed);
+                this.objectVelocity = new PointF(this.objectVelocity.X, playerSpeed);
             }
             else
             {
-                this.objectVelocity = new Point(this.objectVelocity.X, 0);
+                this.objectVelocity = new PointF(this.objectVelocity.X, 0);
             }
 
             if (gameManager.keysDown.Contains(Keys.D))
             {
-                this.objectVelocity = new Point(playerSpeed, this.objectVelocity.Y);
+                this.objectVelocity = new PointF(playerSpeed, this.objectVelocity.Y);
             }
             else if (gameManager.keysDown.Contains(Keys.A))
             {
-                this.objectVelocity = new Point(-playerSpeed, this.objectVelocity.Y);
+                this.objectVelocity = new PointF(-playerSpeed, this.objectVelocity.Y);
             }
             else
             {
-                this.objectVelocity = new Point(0, this.objectVelocity.Y);
+                this.objectVelocity = new PointF(0, this.objectVelocity.Y);
             }
 
             if (gameManager.keysDown.Contains(Keys.Space))
@@ -58,17 +58,17 @@ namespace ShooterExample
                 {
                     Console.Out.WriteLine(gameManager.mouseLocation + " " + this.gameObjectLocation);
 
-                    Point locationDifference = PointHelper.Subtract( gameManager.mouseLocation, this.gameObjectLocation);
-                    Point projectileVelocity = new Point(0, 0);
+                    PointF locationDifference = PointHelper.Subtract( gameManager.mouseLocation, this.gameObjectLocation);
+                    PointF projectileVelocity = new PointF(0, 0);
                     if (locationDifference.X > locationDifference.Y)
                     {
-                        int yVelocity = locationDifference.Y * 100 / locationDifference.X;
-                        projectileVelocity = new Point(projectileMaxVelocity, yVelocity * projectileMaxVelocity / 100);
+                        float yVelocity = locationDifference.Y * 100 / locationDifference.X;
+                        projectileVelocity = new PointF(projectileMaxVelocity, yVelocity * projectileMaxVelocity / 100);
                     }
                     else //Y bigger
                     {
-                        int xVelocity = locationDifference.X * 100 / locationDifference.Y;
-                        projectileVelocity = new Point(xVelocity * projectileMaxVelocity / 100, projectileMaxVelocity);
+                        float xVelocity = locationDifference.X * 100 / locationDifference.Y;
+                        projectileVelocity = new PointF(xVelocity * projectileMaxVelocity / 100, projectileMaxVelocity);
                     }
 
                     Console.Out.WriteLine(projectileVelocity);
