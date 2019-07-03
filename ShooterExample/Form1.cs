@@ -74,7 +74,23 @@ namespace ShooterExample
 
         private void ConnectButton_Click(object sender, EventArgs e)
         {
+            gameManager.Connect();
 
+            if (gameManager.IsMasterServer)
+            {
+                ConnectionStateLabel.Text = "Is master server";
+            }
+            else
+            {
+                if (gameManager.IsConnected)
+                {
+                    ConnectionStateLabel.Text = "Is client";
+                }
+                else
+                {
+                    ConnectionStateLabel.Text = "No connection";
+                }
+            }
         }
     }
 }

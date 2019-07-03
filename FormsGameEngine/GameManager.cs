@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Drawing;
 
+using System.Net;
+using System.Net.Sockets;
+
 namespace FormsGameEngine
 {
     public class GameManager
@@ -27,6 +30,30 @@ namespace FormsGameEngine
         public Point mouseLocation = new Point(0, 0);
 
         public Point cameraLocation = new Point(0, 0);
+
+        private bool isConnected = false;
+
+        public bool IsConnected
+        {
+            get
+            {
+                return isConnected;
+            }
+        }
+
+        private bool isMasterserver = false;
+
+        public bool IsMasterServer
+        {
+            get
+            {
+                return isMasterserver;
+            }
+        }
+
+        private const int portNumber = 9999;
+
+        private const string hostName = "localhost";
 
         public GameManager(Form _form, MainGameEnginePanel _mainGameEnginePanel)
         {
@@ -262,6 +289,8 @@ namespace FormsGameEngine
             }
         }
 
+        #region ScenesAndUi
+
         public void AddGameObjectToScene(GameObject _gameObject, int _sceneIndex)
         {
             if (_gameObject != null && _sceneIndex >= 0 && _sceneIndex < gameScenes.Count)
@@ -324,16 +353,28 @@ namespace FormsGameEngine
             }
         }
 
+        #endregion
+
         #region Networking
 
-        public void TpcNetworkServer()
+        public void Connect()
         {
-            TpcGameServer server = new TpcGameServer();
-        }
+            bool connectionSuccessful = false;
+            TpcPlayerClient newClient = new TpcPlayerClient(portNumber, hostName, out connectionSuccessful);
 
-        public void TpcNetworkClient()
-        {
-            TpcPlayerClient client = new TpcPlayerClient();
+            if (connectionSuccessful) //Connection to server successful
+            {
+                isConnected = true;
+                isMasterserver = false;
+            }
+            else //Connection to server isnt successful
+            {
+                Console.Out.WriteLine("connection aint shit");
+                TpcGameServer newServer = new TpcGameServer(portNumber);
+
+                isConnected = true;
+                isMasterserver = true;
+            }
         }
 
         #endregion

@@ -10,21 +10,36 @@ namespace FormsGameEngine
 {
     public class TpcPlayerClient
     {
-        private const int portNumber = 9999;
-        private const string hostName = "localhost";
+        private int portNumber;
+        private string hostName;
 
-        public TpcPlayerClient()
+        public TpcPlayerClient(int _portNumber, string _hostName, out bool connectionSuccessful)
         {
-            TcpClient client = new TcpClient(hostName, portNumber);
+            portNumber = _portNumber;
+            hostName = _hostName;
 
-            NetworkStream ns = client.GetStream();
+            try
+            {
+                TcpClient client = new TcpClient(hostName, portNumber);
 
-            byte[] bytes = new byte[1024];
-            int bytesRead = ns.Read(bytes, 0, bytes.Length);
+                NetworkStream ns = client.GetStream();
 
-            Console.WriteLine(Encoding.ASCII.GetString(bytes, 0, bytesRead));
+                byte[] bytes = new byte[1024];
+                int bytesRead = ns.Read(bytes, 0, bytes.Length);
 
-            client.Close();
+                Console.WriteLine(Encoding.ASCII.GetString(bytes, 0, bytesRead));
+
+                client.Close();
+
+                connectionSuccessful = true;
+            }
+            catch(Exception e)
+            {
+                connectionSuccessful = false;
+            }
+
+
+            return;
         }
     }
 }

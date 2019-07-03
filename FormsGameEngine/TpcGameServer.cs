@@ -6,26 +6,28 @@ using System.Threading.Tasks;
 
 using System.Net.Sockets;
 using System.Net;
+using System.Threading;
 
 namespace FormsGameEngine
 {
     public class TpcGameServer
     {
-        private const int portNumber = 9999;
+        private int portNumber;
 
-        public TpcGameServer()
+        public TpcGameServer(int _portNumber)
         {
+            portNumber = _portNumber;
+
             bool done = false;
 
             TcpListener listener = new TcpListener(IPAddress.Any, portNumber);
             
             listener.Start();
 
-            
             while (!done)
             {
                 TcpClient client = listener.AcceptTcpClient();
-
+                
                 NetworkStream ns = client.GetStream();
 
                 byte[] byteTime = Encoding.ASCII.GetBytes(DateTime.Now.ToString());
