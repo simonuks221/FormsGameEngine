@@ -5,6 +5,9 @@ using System.Text;
 using System.Threading.Tasks;
 
 using System.Net.Sockets;
+using System.Net;
+using System.Threading;
+using System.IO;
 
 namespace FormsGameEngine
 {
@@ -22,12 +25,7 @@ namespace FormsGameEngine
             {
                 TcpClient client = new TcpClient(hostName, portNumber);
 
-                NetworkStream ns = client.GetStream();
-
-                byte[] bytes = new byte[1024];
-                int bytesRead = ns.Read(bytes, 0, bytes.Length);
-
-                Console.WriteLine(Encoding.ASCII.GetString(bytes, 0, bytesRead));
+                Task<string> response = SendRequest(client);
 
                 client.Close();
 
@@ -35,11 +33,34 @@ namespace FormsGameEngine
             }
             catch(Exception e)
             {
+                Console.Out.WriteLine("Connection aint succesfull because: " + e.Message);
                 connectionSuccessful = false;
             }
 
 
             return;
+        }
+
+        private async Task<string> SendRequest(TcpClient client)
+        {
+            try
+            {
+                NetworkStream networkStream = client.GetStream();
+                StreamWriter writer = new StreamWriter(networkStream);
+                writer.AutoFlush = true;
+
+                string newData = "Kakas";
+
+                await writer.WriteLineAsync(newData);
+
+                client.Close();
+            }
+            catch (Exception c)
+            {
+                Console.Out.WriteLine(c.Message);
+            }
+
+            return "";
         }
     }
 }

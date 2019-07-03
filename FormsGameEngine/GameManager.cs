@@ -51,7 +51,7 @@ namespace FormsGameEngine
             }
         }
 
-        private const int portNumber = 9999;
+        private const int portNumber = 420;
 
         private const string hostName = "localhost";
 
